@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Posts>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            @foreach (var obj in Model)
+            {
+                <!-- Post-->
+                <div class="post-preview">
+                    <a href="post.html">
+                        <h2 class="post-title">@obj.Title</h2>
+                    </a>
+                    <p class="post-meta">
+                        Posted on @obj.CreatedDate.ToString("MMMM/dd/yyyy h:mm:ss tt") with rate 4.5 by 100 view(s).
+                    </p>
+                    <p class="line-break">@obj.Description</p>
+                </div>
+                <hr class="my-4" />
+            }  
+        </div>
+    </div>
+</div>
