@@ -27,7 +27,12 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
+    name: "post",
+    pattern: "{controler=Posts}/{year}/{month}/{title}",
+    defaults: new { controller ="Posts", action="Details"},
+    constraints: new { year = @"\d{4}", month = @"\d{2}" }
+    );
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.Run();

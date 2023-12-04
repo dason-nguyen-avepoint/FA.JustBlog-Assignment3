@@ -1,0 +1,14 @@
+﻿@model Posts
+
+<div class="post-preview">
+    <h4>@Model.Title</h4>
+    <p class="post-meta">
+        Posted on @Model.CreatedDate.ToString("MMMM/dd/yyyy h:mm:ss tt") with rate 4.5 by @Model.ViewCount view(s).
+    </p>
+    <button type="button" class="btn btn-secondary p-0">
+        <a asp-controller="Category" asp-action="@Model.Categories.Name.Replace(" ","")">
+            <span class="badge badge-light">#@Model.Categories.Name</span>
+        </a>
+    </button>
+    <p class="line-break">@Model.Content</p>
+</div>

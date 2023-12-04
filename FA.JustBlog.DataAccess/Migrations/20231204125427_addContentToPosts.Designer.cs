@@ -4,6 +4,7 @@ using FA.JustBlog.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FA.JustBlog.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231204125427_addContentToPosts")]
+    partial class addContentToPosts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,121 +113,10 @@ namespace FA.JustBlog.DataAccess.Migrations
                             Id = 3,
                             CategoryId = 1,
                             Content = "This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.\r\n\r\nLonger quote goes here, maybe with some emphasized text in the middle of it.\r\n\r\nThis is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.",
-                            CreatedDate = new DateTime(2023, 12, 4, 21, 56, 45, 918, DateTimeKind.Local).AddTicks(947),
+                            CreatedDate = new DateTime(2023, 12, 4, 19, 54, 25, 981, DateTimeKind.Local).AddTicks(9507),
                             Description = "You may not be aware, but NewBreed relies on donations from gospel partners, like you, so that we can give church planting resources away wherever they’re needed most.\r\nThis year, we’re not asking you to donate. We’re asking you to partner with us in the belief that NewBreed is fulfilling a vital role in training gospel missionaries to penetrate their cultures using 1st century universal principles that empower them to plant anywhere, at anytime, with anyone.",
                             Title = "This my my third post!",
                             ViewCount = 1
-                        });
-                });
-
-            modelBuilder.Entity("FA.JustBlog.Model.Tag", b =>
-                {
-                    b.Property<int>("TagId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TagId"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TagId");
-
-                    b.ToTable("Tags");
-
-                    b.HasData(
-                        new
-                        {
-                            TagId = 1,
-                            Name = "ado.net"
-                        },
-                        new
-                        {
-                            TagId = 2,
-                            Name = "javascript"
-                        },
-                        new
-                        {
-                            TagId = 3,
-                            Name = "mvc"
-                        },
-                        new
-                        {
-                            TagId = 4,
-                            Name = "Csharp"
-                        },
-                        new
-                        {
-                            TagId = 5,
-                            Name = "entity framework"
-                        });
-                });
-
-            modelBuilder.Entity("FA.JustBlog.Model.TagPost", b =>
-                {
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PostId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("TagsPost");
-
-                    b.HasData(
-                        new
-                        {
-                            PostId = 1,
-                            TagId = 1
-                        },
-                        new
-                        {
-                            PostId = 1,
-                            TagId = 2
-                        },
-                        new
-                        {
-                            PostId = 1,
-                            TagId = 3
-                        },
-                        new
-                        {
-                            PostId = 1,
-                            TagId = 4
-                        },
-                        new
-                        {
-                            PostId = 1,
-                            TagId = 5
-                        },
-                        new
-                        {
-                            PostId = 2,
-                            TagId = 3
-                        },
-                        new
-                        {
-                            PostId = 2,
-                            TagId = 5
-                        },
-                        new
-                        {
-                            PostId = 3,
-                            TagId = 2
-                        },
-                        new
-                        {
-                            PostId = 3,
-                            TagId = 5
-                        },
-                        new
-                        {
-                            PostId = 3,
-                            TagId = 1
                         });
                 });
 
@@ -239,38 +131,9 @@ namespace FA.JustBlog.DataAccess.Migrations
                     b.Navigation("Categories");
                 });
 
-            modelBuilder.Entity("FA.JustBlog.Model.TagPost", b =>
-                {
-                    b.HasOne("FA.JustBlog.Model.Posts", "Post")
-                        .WithMany("TagPosts")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FA.JustBlog.Model.Tag", "Tags")
-                        .WithMany("TagPosts")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("Tags");
-                });
-
             modelBuilder.Entity("FA.JustBlog.Model.Category", b =>
                 {
                     b.Navigation("Posts");
-                });
-
-            modelBuilder.Entity("FA.JustBlog.Model.Posts", b =>
-                {
-                    b.Navigation("TagPosts");
-                });
-
-            modelBuilder.Entity("FA.JustBlog.Model.Tag", b =>
-                {
-                    b.Navigation("TagPosts");
                 });
 #pragma warning restore 612, 618
         }

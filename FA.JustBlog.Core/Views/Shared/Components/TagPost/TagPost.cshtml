@@ -1,0 +1,10 @@
+﻿@model List<string>
+Tag: 
+@foreach (var item in Model)
+{
+    <button type="button" class="btn btn-secondary p-0">
+        <a href="#">
+            <span class="badge badge-light">@item</span>
+        </a>
+    </button>
+}
