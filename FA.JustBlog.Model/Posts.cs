@@ -14,5 +14,8 @@ namespace FA.JustBlog.Model
         public string ? Title { get; set; }
         public string ? Description { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public int ViewCount { get; set; } = 0;
+        public int CategoryId { get; set; }
+        public Category Categories { get; set; }
     }
 }

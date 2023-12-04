@@ -5,12 +5,12 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FA.JustBlog.DataAccess", "FA.JustBlog.DataAccess\FA.JustBlog.DataAccess.csproj", "{BE2284E7-E6F4-42E5-8E89-87BE2BC50978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FA.JustBlog.Core", "FA.JustBlog.Core\FA.JustBlog.Core.csproj", "{A778160D-CC55-45B1-BC71-254E345DA1FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FA.JustBlog.Core", "FA.JustBlog.Core\FA.JustBlog.Core.csproj", "{A778160D-CC55-45B1-BC71-254E345DA1FC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8DFD0039-ED73-4575-A32C-E0516BE1EC0F} = {8DFD0039-ED73-4575-A32C-E0516BE1EC0F}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FA.JustBlog.Model", "FA.JustBlog.Model\FA.JustBlog.Model.csproj", "{8DFD0039-ED73-4575-A32C-E0516BE1EC0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FA.JustBlog.Model", "FA.JustBlog.Model\FA.JustBlog.Model.csproj", "{8DFD0039-ED73-4575-A32C-E0516BE1EC0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

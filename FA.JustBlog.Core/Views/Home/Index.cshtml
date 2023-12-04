@@ -4,8 +4,8 @@
 }
 
 <div class="container px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
+    <div class="row gx-4 gx-lg-5">
+        <div class="col-md-6 col-lg-6">
             @foreach (var obj in Model)
             {
                 <!-- Post-->
@@ -14,12 +14,42 @@
                         <h2 class="post-title">@obj.Title</h2>
                     </a>
                     <p class="post-meta">
-                        Posted on @obj.CreatedDate.ToString("MMMM/dd/yyyy h:mm:ss tt") with rate 4.5 by 100 view(s).
+                        Posted on @obj.CreatedDate.ToString("MMMM/dd/yyyy h:mm:ss tt") with rate 4.5 by @obj.ViewCount view(s).
                     </p>
+                    <button type="button" class="btn btn-secondary p-0">
+                        <a asp-controller="Category" asp-action="@obj.Categories.Name.Replace(" ","")">
+                            <span class="badge badge-light">#@obj.Categories.Name</span>
+                        </a>
+                    </button>
                     <p class="line-break">@obj.Description</p>
                 </div>
                 <hr class="my-4" />
-            }  
+            }
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <partial name="_PartialAboutCard"/>
         </div>
     </div>
+    @{
+        var MostViewedPosts = Model.OrderByDescending(x => x.ViewCount).Take(5).ToList();
+        var LatestPostsinside = Model.OrderByDescending(x => x.CreatedDate).Take(5).ToList();
+    }
+    <div class="row gx-4 gx-lg-5">
+        <h2>Most View Posts</h2>
+        <partial name="_ListPosts" model="MostViewedPosts" />
+    </div>
+    <div class="row gx-4 gx-lg-5">
+        <h2>Latest Posts</h2>
+        <partial name="_ListPosts" model="MostViewedPosts" />
+    </div>
 </div>
+
+
+@{
+    var a = Model.OrderByDescending(x => x.Id).ToList();
+    var b = Model.ToList().Take(2);
+}
+@await Component.InvokeAsync("ProductBox", a)
+
+@await Component.InvokeAsync("ProductBox", b)
+

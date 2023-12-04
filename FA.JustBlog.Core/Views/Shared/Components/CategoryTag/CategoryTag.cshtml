@@ -1,0 +1,9 @@
+﻿@model List<Category>
+
+@foreach (var cate in Model)
+{
+    <li class="nav-item">
+        <a class="nav-link px-lg-3 py-3 py-lg-4" asp-controller="Category" asp-action="@cate.Name.Replace(" ","")">@cate.Name</a>
+    </li>
+}
+                    
