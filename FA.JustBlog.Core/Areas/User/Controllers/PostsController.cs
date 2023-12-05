@@ -3,8 +3,9 @@ using FA.JustBlog.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace FA.JustBlog.Core.Controllers
+namespace FA.JustBlog.Core.Areas.User.Controllers
 {
+    [Area("User")]
     public class PostsController : Controller
     {
         private readonly ApplicationDbContext _db;

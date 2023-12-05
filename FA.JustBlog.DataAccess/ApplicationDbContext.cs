@@ -12,7 +12,8 @@ namespace FA.JustBlog.DataAccess
         public DbSet<Posts> Posts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<TagPost> TagsPost { get; set; }    
+        public DbSet<TagPost> TagsPost { get; set; }
+        public DbSet<InterestPost> InterestPosts { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,6 +24,8 @@ namespace FA.JustBlog.DataAccess
             modelBuilder.Entity<TagPost>().HasKey(x => new {x.PostId, x.TagId});
             modelBuilder.Entity<TagPost>().HasOne<Posts>(x => x.Post).WithMany(x => x.TagPosts).HasForeignKey(x => x.PostId);
             modelBuilder.Entity<TagPost>().HasOne<Tag>(x => x.Tags).WithMany(x => x.TagPosts).HasForeignKey(x => x.TagId);
+
+            modelBuilder.Entity<InterestPost>().HasOne(x => x.Post).WithMany(x => x.InterestPosts).HasForeignKey(x => x.PostId);
             //SEED DATA
             modelBuilder.Entity<Tag>().HasData(
                 new Tag
@@ -91,6 +94,49 @@ namespace FA.JustBlog.DataAccess
                     Content = "This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.\r\n\r\nLonger quote goes here, maybe with some emphasized text in the middle of it.\r\n\r\nThis is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.",
                     ViewCount = 1,
                     CategoryId = 1,
+                });
+            modelBuilder.Entity<InterestPost>().HasData(
+                new InterestPost
+                {
+                    InterestId = 1,
+                    Rate = 10,
+                    PostId = 1,
+                },
+                new InterestPost
+                {
+                    InterestId = 2,
+                    Rate = 8,
+                    PostId = 1,
+                },
+                new InterestPost
+                {
+                    InterestId = 3,
+                    Rate = 7,
+                    PostId = 1,
+                },
+                new InterestPost
+                {
+                    InterestId = 4,
+                    Rate = 7,
+                    PostId = 2,
+                },
+                new InterestPost
+                {
+                    InterestId = 5,
+                    Rate = 5,
+                    PostId = 2,
+                },
+                new InterestPost
+                {
+                    InterestId = 6,
+                    Rate = 10,
+                    PostId = 3,
+                },
+                new InterestPost
+                {
+                    InterestId = 7,
+                    Rate = 4,
+                    PostId = 3,
                 });
             modelBuilder.Entity<TagPost>().HasData(
                 new TagPost

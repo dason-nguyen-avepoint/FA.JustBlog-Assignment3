@@ -14,7 +14,7 @@
             {
                 <!-- Post-->
                 <div class="post-preview">
-                    <a asp-controller="Posts" asp-action="Details"
+                    <a asp-area="User" asp-controller="Posts" asp-action="Details"
                         asp-route-year="@obj.CreatedDate.Year"
                         asp-route-month="@obj.CreatedDate.Month"
                        asp-route-title="@Uri.EscapeDataString(obj.Title.Replace(" ", "-"))">
@@ -49,7 +49,7 @@
                         }
                     }
                     Category: <button type="button" class="btn btn-secondary p-0">
-                        <a asp-controller="Category" asp-action="@obj.Categories.Name.Replace(" ","")">
+                        <a asp-area="User" asp-controller="Category" asp-action="@obj.Categories.Name.Replace(" ","")">
                             <span class="badge badge-light">#@obj.Categories.Name</span>
                         </a>
                     </button>

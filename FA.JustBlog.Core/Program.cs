@@ -1,4 +1,5 @@
 using FA.JustBlog.DataAccess;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,12 +28,20 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
+    name: "default",
+    pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}");
+app.MapAreaControllerRoute(
+    areaName :"Admin",
+    name: "Admin",
+    pattern: "{area=Admin}/{controller=Post}/{action=Index}/{id?}");
+app.MapAreaControllerRoute(
+    areaName: "Admin",
+    name: "sortBy",
+    pattern: "{area=Admin}/{controller=Post}/{action=Index}/{sortBy}");
+app.MapControllerRoute(
     name: "post",
     pattern: "{controler=Posts}/{year}/{month}/{title}",
     defaults: new { controller ="Posts", action="Details"},
     constraints: new { year = @"\d{4}", month = @"\d{2}" }
     );
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.Run();

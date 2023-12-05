@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-namespace FA.JustBlog.Core.Controllers
+namespace FA.JustBlog.Core.Areas.User.Controllers
 {
-    public class HomeController : Controller    
+    [Area("User")]
+    public class HomeController : Controller
     {
         private readonly ApplicationDbContext _db;
         public HomeController(ApplicationDbContext db)
