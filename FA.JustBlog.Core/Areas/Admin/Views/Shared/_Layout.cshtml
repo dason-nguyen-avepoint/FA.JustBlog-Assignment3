@@ -9,6 +9,12 @@
     <title>Dashboard - SB Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="~/css/admin/styles.css" rel="stylesheet" />
+    <script src="~/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#mytextarea'
+        });
+    </script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
@@ -55,11 +61,11 @@
                         </a>
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Post" asp-action="Index" asp-route-sortBy="Latest Posts">Latest Posts</a>
-                                <a class="nav-link" asp-controller="Post" asp-action="Index" asp-route-sortBy="Most Viewed">Most Viewed Posts</a>
-                                <a class="nav-link" asp-controller="Post" asp-action="Index" asp-route-message="Interesting">Most Interesting Posts</a>
-                                <a class="nav-link" asp-controller="Post" asp-action="Index" asp-route-message="Published">Published Posts</a>
-                                <a class="nav-link" asp-controller="Post" asp-action="Index" asp-route-message="Un-published Posts">Un-published Posts</a>
+                                <a class="nav-link" asp-area="Admin" asp-controller="Posts" asp-action="Index" asp-route-sortBy="Latest Posts">Latest Posts</a>
+                                <a class="nav-link" asp-controller="Posts" asp-action="Index" asp-route-sortBy="Most Viewed">Most Viewed Posts</a>
+                                <a class="nav-link" asp-controller="Posts" asp-action="Index" asp-route-sortBy="Interesting">Most Interesting Posts</a>
+                                <a class="nav-link" asp-controller="Posts" asp-action="Index" asp-route-sortBy="Published">Published Posts</a>
+                                <a class="nav-link" asp-controller="Posts" asp-action="Index" asp-route-sortBy="Un-published">Un-published Posts</a>
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">

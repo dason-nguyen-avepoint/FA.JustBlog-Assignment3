@@ -17,7 +17,7 @@ namespace FA.JustBlog.Core.Areas.User.Controllers
 
         public IActionResult Index()
         {
-            List<Posts> listPosts = _db.Posts.Include(x => x.Categories).OrderByDescending(x => x.CreatedDate).ToList();
+            List<Posts> listPosts = _db.Posts.Include(x => x.Categories).Where(x => x.isPublised).OrderByDescending(x => x.CreatedDate).ToList();
             return View(listPosts);
         }
 

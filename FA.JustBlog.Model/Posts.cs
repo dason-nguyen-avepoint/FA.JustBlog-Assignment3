@@ -16,6 +16,7 @@ namespace FA.JustBlog.Model
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public string ? Content { get; set; }
         public int ViewCount { get; set; } = 0;
+        public bool isPublised { get; set; }
         public int CategoryId { get; set; }
         public Category ? Categories { get; set; }
         public virtual IEnumerable<TagPost> ? TagPosts { get; set; }

@@ -13,6 +13,6 @@ namespace FA.JustBlog.Model
         public int InterestId { get; set; }
         public int Rate { get; set; }
         public int PostId { get; set; }
-        public Posts Post { get; set; }
+        public Posts ? Post { get; set; }
     }
 }

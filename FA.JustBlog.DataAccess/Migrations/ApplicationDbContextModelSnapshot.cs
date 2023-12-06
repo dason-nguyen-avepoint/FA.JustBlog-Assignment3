@@ -31,7 +31,6 @@ namespace FA.JustBlog.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CategoryId");
@@ -142,6 +141,9 @@ namespace FA.JustBlog.DataAccess.Migrations
                     b.Property<int>("ViewCount")
                         .HasColumnType("int");
 
+                    b.Property<bool>("isPublised")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -157,7 +159,8 @@ namespace FA.JustBlog.DataAccess.Migrations
                             CreatedDate = new DateTime(2022, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "You may not be aware, but NewBreed relies on donations from gospel partners, like you, so that we can give church planting resources away wherever they’re needed most.\r\nThis year, we’re not asking you to donate. We’re asking you to partner with us in the belief that NewBreed is fulfilling a vital role in training gospel missionaries to penetrate their cultures using 1st century universal principles that empower them to plant anywhere, at anytime, with anyone.",
                             Title = "Hello, this my my first post!",
-                            ViewCount = 3
+                            ViewCount = 3,
+                            isPublised = true
                         },
                         new
                         {
@@ -167,17 +170,19 @@ namespace FA.JustBlog.DataAccess.Migrations
                             CreatedDate = new DateTime(2023, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "You may not be aware, but NewBreed relies on donations from gospel partners, like you, so that we can give church planting resources away wherever they’re needed most.\r\nThis year, we’re not asking you to donate. We’re asking you to partner with us in the belief that NewBreed is fulfilling a vital role in training gospel missionaries to penetrate their cultures using 1st century universal principles that empower them to plant anywhere, at anytime, with anyone.",
                             Title = "This my my second post!",
-                            ViewCount = 5
+                            ViewCount = 5,
+                            isPublised = true
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 1,
                             Content = "This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.\r\n\r\nLonger quote goes here, maybe with some emphasized text in the middle of it.\r\n\r\nThis is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.",
-                            CreatedDate = new DateTime(2023, 12, 5, 16, 10, 37, 404, DateTimeKind.Local).AddTicks(2052),
+                            CreatedDate = new DateTime(2023, 12, 6, 14, 29, 26, 57, DateTimeKind.Local).AddTicks(7409),
                             Description = "You may not be aware, but NewBreed relies on donations from gospel partners, like you, so that we can give church planting resources away wherever they’re needed most.\r\nThis year, we’re not asking you to donate. We’re asking you to partner with us in the belief that NewBreed is fulfilling a vital role in training gospel missionaries to penetrate their cultures using 1st century universal principles that empower them to plant anywhere, at anytime, with anyone.",
                             Title = "This my my third post!",
-                            ViewCount = 1
+                            ViewCount = 1,
+                            isPublised = true
                         });
                 });
 

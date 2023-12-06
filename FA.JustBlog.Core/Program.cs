@@ -1,3 +1,4 @@
+using FA.JustBlog.Core.Data;
 using FA.JustBlog.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -6,8 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 //Add connection data service
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
+    option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
+builder.Services.AddDbContext<ApplicationDbContext1>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
 
 var app = builder.Build();
@@ -33,11 +37,11 @@ app.MapControllerRoute(
 app.MapAreaControllerRoute(
     areaName :"Admin",
     name: "Admin",
-    pattern: "{area=Admin}/{controller=Post}/{action=Index}/{id?}");
+    pattern: "{area=Admin}/{controller=Posts}/{action=Index}/{id?}");
 app.MapAreaControllerRoute(
     areaName: "Admin",
     name: "sortBy",
-    pattern: "{area=Admin}/{controller=Post}/{action=Index}/{sortBy}");
+    pattern: "{area=Admin}/{controller=Posts}/{action=Index}/{sortBy}");
 app.MapControllerRoute(
     name: "post",
     pattern: "{controler=Posts}/{year}/{month}/{title}",
