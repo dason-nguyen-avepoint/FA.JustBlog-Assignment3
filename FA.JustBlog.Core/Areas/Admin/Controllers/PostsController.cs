@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FA.JustBlog.DataAccess;
 using FA.JustBlog.Model;
+using System.Globalization;
 
 namespace FA.JustBlog.Core.Areas.Admin.Controllers
 {
@@ -21,60 +22,9 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         }
 
         // GET: Admin/Posts
-        public IActionResult Index(string? sortBy)
+        public IActionResult Index()
         {
-            IEnumerable<Posts> listPost = null;
-            if ("Latest Posts".Equals(sortBy))
-            {
-                listPost = _context.Posts.Include(x => x.Categories).Where(x => x.CreatedDate.Date == DateTime.Now.Date).ToList();
-                ViewBag.SortBy = "Lastest Posts";
-            }
-            else if ("Most Viewed".Equals(sortBy))
-            {
-                listPost = _context.Posts.Include(x => x.Categories).OrderByDescending(x => x.ViewCount).ToList();
-                ViewBag.SortBy = "The Most Viewed Post";
-            }
-            else if ("Interesting".Equals(sortBy))
-            {
-                var posts = _context.Posts.ToList();
-                var categories = _context.Categories.ToList();
-                var interests = _context.InterestPosts.ToList();
-                var groupInterest = _context.InterestPosts
-                    .GroupBy(x => x.PostId)
-                    .Select(x => new { postId = x.Key, rate = x.Average(p => p.Rate) });
-                var InterestingRate = from post in posts
-                                      join category in categories on post.CategoryId equals category.CategoryId
-                                      join interest in groupInterest on post.Id equals interest.postId
-                                      select (new
-                                      {
-                                          post.Id,
-                                          post.Title,
-                                          post.Description,
-                                          post.CreatedDate,
-                                          post.ViewCount,
-                                          post.CategoryId,
-                                          category.Name,
-                                          rate = (int) interest.rate
-                                      });
-                ViewBag.SortBy = "List Interest Rate Post";
-                return View("Interesting", InterestingRate);
-            }
-            else if ("Published".Equals(sortBy))
-            {
-                listPost = _context.Posts.Include(x => x.Categories).Where(x => x.isPublised).ToList();
-                ViewBag.SortBy = "List Published Post";
-            }
-            else if ("Un-published".Equals(sortBy))
-            {
-                listPost = _context.Posts.Include(x => x.Categories).Where(x => !x.isPublised).ToList();
-                ViewBag.SortBy = "List Unpublished Post";
-            }
-            else
-            {
-                ViewBag.SortBy = "List Post";
-                listPost = _context.Posts.Include(x => x.Categories).ToList();
-            }
-            return View(listPost);
+            return View();
         }
 
         // GET: Admin/Posts/Details/5
@@ -210,6 +160,62 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         private bool PostsExists(int id)
         {
             return _context.Posts.Any(e => e.Id == id);
+        }
+        [HttpGet]
+        public IActionResult GetPosts(string? sortBy)
+        {
+            IEnumerable<Posts> listPost = null;
+            if ("Latest Posts".Equals(sortBy))
+            {
+                listPost = _context.Posts.Include(x => x.Categories).Where(x => x.CreatedDate.Date == DateTime.Now.Date).ToList();
+                ViewBag.SortBy = "Lastest Posts";
+            }
+            else if ("Most Viewed".Equals(sortBy))
+            {
+                listPost = _context.Posts.Include(x => x.Categories).OrderByDescending(x => x.ViewCount).ToList();
+                ViewBag.SortBy = "The Most Viewed Post";
+            }
+            else if ("Interesting".Equals(sortBy))
+            {
+                var posts = _context.Posts.ToList();
+                var categories = _context.Categories.ToList();
+                var interests = _context.InterestPosts.ToList();
+                var groupInterest = _context.InterestPosts
+                    .GroupBy(x => x.PostId)
+                    .Select(x => new { postId = x.Key, rate = x.Average(p => p.Rate) });
+                var InterestingRate = from post in posts
+                                      join category in categories on post.CategoryId equals category.CategoryId
+                                      join interest in groupInterest on post.Id equals interest.postId
+                                      select (new
+                                      {
+                                          post.Id,
+                                          post.Title,
+                                          post.Description,
+                                          post.CreatedDate,
+                                          post.ViewCount,
+                                          post.CategoryId,
+                                          category.Name,
+                                          rate = (int)interest.rate
+                                      });
+                ViewBag.SortBy = "List Interest Rate Post";
+                return View("Interesting", InterestingRate);
+            }
+            else if ("Published".Equals(sortBy))
+            {
+                listPost = _context.Posts.Include(x => x.Categories).Where(x => x.isPublised).ToList();
+                ViewBag.SortBy = "List Published Post";
+            }
+            else if ("Un-published".Equals(sortBy))
+            {
+                listPost = _context.Posts.Include(x => x.Categories).Where(x => !x.isPublised).ToList();
+                ViewBag.SortBy = "List Unpublished Post";
+            }
+            else
+            {
+                ViewBag.SortBy = "List Post";
+                listPost = _context.Posts.Include(x => x.Categories).ToList();
+            }
+            return Json(new { data = listPost });
         }
     }
 }

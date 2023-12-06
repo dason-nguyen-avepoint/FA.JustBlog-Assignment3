@@ -1,12 +1,11 @@
 ﻿@model IEnumerable<Posts>
-
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-@{
+@* @{
     int index = 1;
-}
+} *@
 
 <partial name="_PartialHeaderPost" model=ViewBag.SortBy/> 
 <div class="p-3">
@@ -20,16 +19,16 @@
                     ID
                 </th>
                 <th class="col-2">
-                    @Html.DisplayNameFor(model => model.Title)
+                    Title
                 </th>
                 <th class="col-2">
-                    @Html.DisplayNameFor(model => model.CreatedDate)
+                    CreatedDate
                 </th>
                 <th class="col-1">
-                    @Html.DisplayNameFor(model => model.ViewCount)
+                    ViewCount
                 </th>
                 <th class="col-1">
-                    @Html.DisplayNameFor(model => model.Categories)
+                    Categories
                 </th>
                 <th class="col-2">
                     Status
@@ -37,7 +36,7 @@
                 <th class="col-3"></th>
             </tr>
         </thead>
-        <tbody>
+        @* <tbody>
             @foreach (var item in Model)
             {
                 <tr>
@@ -84,6 +83,9 @@
                 </tr>
                 index++;
             }
-        </tbody>
+        </tbody> *@
     </table>
 </div>
+@section Scripts {
+    <script src="~/js/posts.js"></script>
+}
