@@ -49,6 +49,12 @@ app.MapAreaControllerRoute(
     areaName: "Admin",
     name: "sortBy",
     pattern: "{area=Admin}/{controller=Posts}/{action=Index}/{sortBy}");
+app.MapAreaControllerRoute(
+    areaName: "Admin",
+    name: "sortBy1",
+    pattern: "{area=Admin}/{controller=Posts}/{sortBy?}",
+    defaults: new {controller = "Posts",action = "GetPosts"}
+    );
 app.MapControllerRoute(
     name: "post",
     pattern: "{controler=Posts}/{year}/{month}/{title}",

@@ -22,8 +22,12 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         }
 
         // GET: Admin/Posts
-        public IActionResult Index()
+        public IActionResult Index(string?sortBy)
         {
+            if ("Interesting".Equals(sortBy))
+            {
+                return View("Interesting");
+            }
             return View();
         }
 
@@ -50,6 +54,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name");
+            ViewBag.TagName = _context.Tags.ToList();
             return View();
         }
 
@@ -58,15 +63,25 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,CreatedDate,Content,ViewCount,CategoryId, isPublised")] Posts posts)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,CreatedDate,Content,ViewCount,CategoryId, isPublised")] Posts posts, List<int>Tags)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(posts);
                 await _context.SaveChangesAsync();
+                foreach (var item in Tags)
+                {
+                    _context.TagsPost.Add(new TagPost
+                    {
+                        PostId = posts.Id,
+                        TagId = item
+                    });
+                }
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name", posts.CategoryId);
+            ViewBag.TagName = _context.Tags.ToList();
             return View(posts);
         }
 
@@ -84,6 +99,8 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
                 return NotFound();
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name", posts.CategoryId);
+            ViewBag.TagName = _context.Tag.ToList();
+            ViewBag.TagPost = _context.TagsPost.Where(x => x.PostId == id).ToList();
             return View(posts);
         }
 
@@ -198,7 +215,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
                                           rate = (int)interest.rate
                                       });
                 ViewBag.SortBy = "List Interest Rate Post";
-                return View("Interesting", InterestingRate);
+                return Json(new { data = InterestingRate });
             }
             else if ("Published".Equals(sortBy))
             {

@@ -13,16 +13,21 @@ namespace FA.JustBlog.Core.Areas.User.Controllers
         {
             _db = db;
         }
+        public IActionResult Index(string? cate)
+        {
+            IEnumerable<Posts> categoryPosts = _db.Posts.Include(x => x.Categories).Where(x => x.Categories.Name == cate && x.isPublised).ToList();
+            return View(categoryPosts);
+        }
 
-        public IActionResult EntityFramework()
-        {
-            IEnumerable<Posts> categoryPosts = _db.Posts.Include(x => x.Categories).Where(x => x.Categories.Name == "Entity Framework").ToList();
-            return View(categoryPosts);
-        }
-        public IActionResult Mvc()
-        {
-            IEnumerable<Posts> categoryPosts = _db.Posts.Include(x => x.Categories).Where(x => x.Categories.Name == "MVC").ToList();
-            return View(categoryPosts);
-        }
+        //public IActionResult EntityFramework()
+        //{
+        //    IEnumerable<Posts> categoryPosts = _db.Posts.Include(x => x.Categories).Where(x => x.Categories.Name == "Entity Framework").ToList();
+        //    return View(categoryPosts);
+        //}
+        //public IActionResult Mvc()
+        //{
+        //    IEnumerable<Posts> categoryPosts = _db.Posts.Include(x => x.Categories).Where(x => x.Categories.Name == "MVC").ToList();
+        //    return View(categoryPosts);
+        //}
     }
 }

@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\assets\**" />
+    <Content Remove="wwwroot\assets\**" />
+    <EmbeddedResource Remove="wwwroot\assets\**" />
+    <None Remove="wwwroot\assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\home-bg.jpg" />
   </ItemGroup>
 
@@ -19,17 +26,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
-    <PackageReference Include="PagedList.Mvc" Version="4.5.0" />
     <PackageReference Include="TinyMCE" Version="6.8.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FA.JustBlog.DataAccess\FA.JustBlog.DataAccess.csproj" />
     <ProjectReference Include="..\FA.JustBlog.Model\FA.JustBlog.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\assets\" />
   </ItemGroup>
 
 </Project>

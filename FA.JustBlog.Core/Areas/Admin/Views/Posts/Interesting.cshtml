@@ -7,39 +7,39 @@
     }
 </div> *@
 
-@{
+@* @{
     int index = 1;
-}
+} *@
 <partial name="_PartialHeaderPost" model=ViewBag.SortBy />
 <div class="p-3">
     <p>
         <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-circle"></i>Create New</a>
     </p>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="tblPost">
         <thead>
             <tr>
-                <th class="col-1">
+                <th>
                     ID
                 </th>
-                <th class="col-2">
+                <th>
                     Title
                 </th>
-                <th class="col-2">
+                <th>
                     CreatedDate
                 </th>
-                <th class="col-1">
+                <th>
                     ViewCount
                 </th>
-                <th class="col-1">
+                <th>
                     Categories
                 </th>
-                <th class="col-1">
+                <th>
                     Rate
                 </th>
-                <th class="col-2"></th>
+                <th></th>
             </tr>
         </thead>
-        <tbody>
+        @* <tbody>
             @foreach (var item in Model)
             {
                 <tr>
@@ -69,6 +69,9 @@
                 </tr>
                 index++;
             }
-        </tbody>
+        </tbody> *@
     </table>
 </div>
+@section Scripts {
+    <script src="~/js/posts.js"></script>
+}

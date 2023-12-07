@@ -19,7 +19,9 @@ namespace FA.JustBlog.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // RELATION
-            modelBuilder.Entity<Posts>().HasOne(x => x.Categories).WithMany(x => x.Posts).HasForeignKey(x => x.CategoryId);
+            modelBuilder.Entity<Posts>().HasOne(x => x.Categories)
+                .WithMany(x => x.Posts)
+                .HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<TagPost>().HasKey(x => new {x.PostId, x.TagId});
             modelBuilder.Entity<TagPost>().HasOne<Posts>(x => x.Post).WithMany(x => x.TagPosts).HasForeignKey(x => x.PostId);

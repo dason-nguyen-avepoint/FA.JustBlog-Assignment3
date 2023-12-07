@@ -11,6 +11,7 @@ namespace FA.JustBlog.Core.Models
     {
         [Key]
         public int CategoryId { get; set; }
+        [Required]
         public string Name { get; set; }
         public virtual IEnumerable<Posts> Posts { get; set; }
     }

@@ -51,7 +51,7 @@
             </button>
             <br>
             @await Component.InvokeAsync("TagPost", @obj)
-            <p class="line-break">@obj.Description</p>
+            <p class="line-break">@Html.Raw(obj.Description)</p>
         </div>
         
     }
