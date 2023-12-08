@@ -1,10 +1,12 @@
 ﻿using FA.JustBlog.Model;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace FA.JustBlog.DataAccess
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -14,10 +16,23 @@ namespace FA.JustBlog.DataAccess
         public DbSet<Tag> Tags { get; set; }
         public DbSet<TagPost> TagsPost { get; set; }
         public DbSet<InterestPost> InterestPosts { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
+            base.OnModelCreating(modelBuilder);
+
+            // CHANGE NAME IDENTITY ASP.NET
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                var tableName = entityType.GetTableName();
+                if (tableName.StartsWith("AspNet"))
+                {
+                    entityType.SetTableName(tableName.Substring(6));
+                }
+            }
             // RELATION
             modelBuilder.Entity<Posts>().HasOne(x => x.Categories)
                 .WithMany(x => x.Posts)

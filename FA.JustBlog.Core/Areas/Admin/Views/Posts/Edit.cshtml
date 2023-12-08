@@ -49,22 +49,19 @@
                 <input asp-for="isPublised" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked="true"> <!-- or checked="false" -->
             </div>
             <div class="form-group form-check form-switch">
-                @foreach (var item in ViewBag.TagName)
+                @foreach (var item in ViewBag.CheckTagState)
                 {
                     <div class="form-check form-check-inline">
-                        @foreach (var item2 in ViewBag.TagPost)
-                        {
-                            @if (item.TagId == item2.TagId)
+                            @if (item.PostId == Model.Id)
                             {
-                                <input name="Tags" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="@item.TagId" checked>
+                            <input name="Tags" class="form-check-input" type="checkbox" value="@item.TagId" checked>
                                 <label class="form-check-label" for="inlineCheckbox1">@item.Name</label>
                             }
                             else
                             {
-                                <input name="Tags" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="@item.TagId">
+                                <input name="Tags" class="form-check-input" type="checkbox" value="@item.TagId">
                                 <label class="form-check-label" for="inlineCheckbox1">@item.Name</label>
                             }
-                        }
                     </div>
                 }
             </div>

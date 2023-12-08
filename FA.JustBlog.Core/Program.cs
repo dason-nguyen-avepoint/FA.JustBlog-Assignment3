@@ -3,6 +3,9 @@ using FA.JustBlog.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
+using FA.JustBlog.Utils;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,13 +15,46 @@ builder.Services.AddRazorPages();
 //Add connection data service
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+    options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
 builder.Services.AddDbContext<ApplicationDbContext1>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
+
+// CONFIG EMAIL SENDER
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+
 //SETTING JSON FILE
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     options.JsonSerializerOptions.WriteIndented = true;
+});
+// IDENTITY OPTIONS
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // CONFIGURE PASSWORD
+    options.Password.RequireDigit = false; // DO NOT REQUIRE NUMBER IN PASSWORD
+    options.Password.RequireLowercase = false; // DO NOT REQUIRE LOWER CHARACTERS IN PASSWORD
+    options.Password.RequireNonAlphanumeric = false; // DO NOT REQUIRE SPECIAL CHARACTER (!@#$%...)
+    options.Password.RequireUppercase = false; // DO NOT REQUIRE UPPER CHARACTERS IN PASSWORD
+    options.Password.RequiredLength = 6; // MINIMUN LENGTH OF PASSWORD IS ...
+    options.Password.RequiredUniqueChars = 1; // NUMBER OF UNIQUE CHARACTER
+
+    // CONFIGURE LOCKOUT - LOCKUSER
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // TIME OF LOCK USER WHEN LOGIN FAIL
+    options.Lockout.MaxFailedAccessAttempts = 5; // NUMBER OF FAILED LOGIN
+    options.Lockout.AllowedForNewUsers = true;
+
+    // CONFIGURE USER
+    //options.User.AllowedUserNameCharacters =
+    //"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-.@+"; // ALLOW USER NAME HAS THIS CHARACTERS
+    options.User.RequireUniqueEmail = true; // EMAIL IS UNIQUE
+
+    //CONFIGURE LOGIN
+    options.SignIn.RequireConfirmedEmail = true; // CONFIRM EMAIL
+    options.SignIn.RequireConfirmedPhoneNumber = false; // DO NOT CONFIRM PHONE NUMBER
 });
 
 var app = builder.Build();
@@ -36,8 +72,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}");

@@ -11,8 +11,9 @@ namespace FA.JustBlog.Model
     {
         [Key]
         public int TagId { get; set; }
-        public string Name { get; set; }
-        public virtual IEnumerable<TagPost> TagPosts { get; set; }
+        [Required]
+        public string ? Name { get; set; }
+        public virtual IEnumerable<TagPost> ? TagPosts { get; set; }
 
     }
 }

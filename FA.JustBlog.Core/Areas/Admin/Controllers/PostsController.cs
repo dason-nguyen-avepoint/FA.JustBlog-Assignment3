@@ -99,8 +99,21 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
                 return NotFound();
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name", posts.CategoryId);
-            ViewBag.TagName = _context.Tag.ToList();
-            ViewBag.TagPost = _context.TagsPost.Where(x => x.PostId == id).ToList();
+            //select* from Tags as T
+            //left join
+            //(select* from TagsPost where TagsPost.PostId = 3) as TP on T.TagId = TP.TagId;
+            ViewBag.CheckTagState = from t in _context.Tags.ToList()
+                        join tp in _context.TagsPost.Where(tp => tp.PostId == id).ToList()
+                        on t.TagId equals tp.TagId
+                        into joinedPost
+                        from subTp in joinedPost.DefaultIfEmpty()
+                        select new
+                        {
+                            TagId = t.TagId,
+                            Name = t.Name,
+                            PostId = subTp?.PostId ?? null
+                        };
+
             return View(posts);
         }
 
@@ -109,7 +122,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,CreatedDate,Content,ViewCount,CategoryId,isPublised")] Posts posts)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,CreatedDate,Content,ViewCount,CategoryId,isPublised")] Posts posts, List<int> Tags)
         {
             if (id != posts.Id)
             {
@@ -120,7 +133,16 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(posts);
+                    var oldPostTag = _context.TagsPost.Where(x => x.PostId == posts.Id).ToList();
+                    _context.TagsPost.RemoveRange(oldPostTag);
+                    foreach (var item in Tags)
+                    {
+                        _context.TagsPost.Add(new TagPost
+                        {
+                            PostId = posts.Id,
+                            TagId = item
+                        });
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -137,6 +159,17 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Name", posts.CategoryId);
+            ViewBag.CheckTagState = from t in _context.Tags.ToList()
+                                    join tp in _context.TagsPost.Where(tp => tp.PostId == id).ToList()
+                                    on t.TagId equals tp.TagId
+                                    into joinedPost
+                                    from subTp in joinedPost.DefaultIfEmpty()
+                                    select new
+                                    {
+                                        TagId = t.TagId,
+                                        Name = t.Name,
+                                        PostId = subTp?.PostId ?? null
+                                    };
             return View(posts);
         }
 
