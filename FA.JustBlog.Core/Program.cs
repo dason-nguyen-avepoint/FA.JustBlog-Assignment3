@@ -1,11 +1,11 @@
 using FA.JustBlog.Core.Data;
 using FA.JustBlog.DataAccess;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using FA.JustBlog.Utils;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using FA.JustBlog.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext1>(option =>
 // .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // SETTINGS ROLE IDENTITY
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
     options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
