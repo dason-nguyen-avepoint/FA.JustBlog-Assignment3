@@ -15,12 +15,28 @@ builder.Services.AddRazorPages();
 //Add connection data service
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
+
+builder.Services.AddDbContext<ApplicationDbContext1>(option =>
+    option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
+
+// DEFAULT IDENTITY
+// builder.Services.AddDefaultIdentity<IdentityUser>(
+// options => options.SignIn.RequireConfirmedAccount = true)
+// .AddEntityFrameworkStores<ApplicationDbContext>();
+
+// SETTINGS ROLE IDENTITY
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(
     options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
-builder.Services.AddDbContext<ApplicationDbContext1>(option =>
-    option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
+//CONFIGURE COOKIE
+builder.Services.ConfigureApplicationCookie(option =>
+{
+    option.LoginPath = $"/Identity/Account/Login";
+    option.LogoutPath = $"/Identity/Account/Logout";
+    option.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
+
 
 // CONFIG EMAIL SENDER
 builder.Services.AddScoped<IEmailSender, EmailSender>();
@@ -55,6 +71,8 @@ builder.Services.Configure<IdentityOptions>(options =>
     //CONFIGURE LOGIN
     options.SignIn.RequireConfirmedEmail = true; // CONFIRM EMAIL
     options.SignIn.RequireConfirmedPhoneNumber = false; // DO NOT CONFIRM PHONE NUMBER
+
+
 });
 
 var app = builder.Build();

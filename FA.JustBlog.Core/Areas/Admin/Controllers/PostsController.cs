@@ -8,10 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using FA.JustBlog.DataAccess;
 using FA.JustBlog.Model;
 using System.Globalization;
+using FA.JustBlog.Utils;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FA.JustBlog.Core.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class PostsController : Controller
     {
         private readonly ApplicationDbContext _context;
