@@ -18,11 +18,41 @@ namespace FA.JustBlog.DataAccess
         public DbSet<InterestPost> InterestPosts { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
+        private void SeedUsers(ModelBuilder modelBuilder)
+        {
+            ApplicationUser user = new ApplicationUser()
+            {
+                Id = "b74ddd14-6340-4840-95c2-db12554843e9",
+                UserName = "admin@gmail.com",
+                NormalizedUserName = "admin@gmail.com",
+                NormalizedEmail = "admin@gmail.com",
+                Email = "admin@gmail.com",
+                LockoutEnabled = false,
+                PhoneNumber = "0000000000",
+                EmailConfirmed = true,
+                Name = "Owner Blog"
+            };
+            PasswordHasher<ApplicationUser> passwordHasher = new PasswordHasher<ApplicationUser>();
+            user.PasswordHash = passwordHasher.HashPassword(user, "Admin123");
+            modelBuilder.Entity<ApplicationUser>().HasData(user);
+        }
 
+        private void SeedUserRoles(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>() 
+                { 
+                    RoleId = "3ec5ab9e-f889-404d-9dd1-eb62d9ad2732", 
+                    UserId = "b74ddd14-6340-4840-95c2-db12554843e9" 
+                }
+            );
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+
             base.OnModelCreating(modelBuilder);
+            this.SeedUsers(modelBuilder);
+            this.SeedUserRoles(modelBuilder);
 
             // CHANGE NAME IDENTITY ASP.NET
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
@@ -38,7 +68,7 @@ namespace FA.JustBlog.DataAccess
                 .WithMany(x => x.Posts)
                 .HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.SetNull);
 
-            modelBuilder.Entity<TagPost>().HasKey(x => new {x.PostId, x.TagId});
+            modelBuilder.Entity<TagPost>().HasKey(x => new { x.PostId, x.TagId });
             modelBuilder.Entity<TagPost>().HasOne<Posts>(x => x.Post).WithMany(x => x.TagPosts).HasForeignKey(x => x.PostId);
             modelBuilder.Entity<TagPost>().HasOne<Tag>(x => x.Tags).WithMany(x => x.TagPosts).HasForeignKey(x => x.TagId);
 
