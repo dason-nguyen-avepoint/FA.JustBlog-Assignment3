@@ -16,8 +16,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
 
-builder.Services.AddDbContext<ApplicationDbContext1>(option =>
-    option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
+//builder.Services.AddDbContext<ApplicationDbContext1>(option =>
+//    option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
 
 // DEFAULT IDENTITY
 // builder.Services.AddDefaultIdentity<IdentityUser>(
@@ -27,7 +27,9 @@ builder.Services.AddDbContext<ApplicationDbContext1>(option =>
 // SETTINGS ROLE IDENTITY
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
     options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddSignInManager<SignInManager<ApplicationUser>>()
+    .AddDefaultTokenProviders();
 
 //CONFIGURE COOKIE
 builder.Services.ConfigureApplicationCookie(option =>

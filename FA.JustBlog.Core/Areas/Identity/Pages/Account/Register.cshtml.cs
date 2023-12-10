@@ -3,6 +3,7 @@
 #nullable disable
 
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.Encodings.Web;
 using FA.JustBlog.Model;
@@ -103,7 +104,7 @@ namespace FA.JustBlog.Core.Areas.Identity.Pages.Account
             public IEnumerable<SelectListItem> RoleList { get; set; }
             public string? Name { get; set; }
             [Range(18, 60)]
-            public int Age { get; set; }
+            public Nullable<int> Age { get; set; }
             public string? AboutMe { get; set; }
             public string? Address { get; set; }
             public string? Phone { get; set; }
