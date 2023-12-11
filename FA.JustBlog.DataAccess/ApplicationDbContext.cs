@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace FA.JustBlog.DataAccess
 {
@@ -40,10 +39,10 @@ namespace FA.JustBlog.DataAccess
         private void SeedUserRoles(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(
-                new IdentityUserRole<string>() 
-                { 
-                    RoleId = "3ec5ab9e-f889-404d-9dd1-eb62d9ad2732", 
-                    UserId = "b74ddd14-6340-4840-95c2-db12554843e9" 
+                new IdentityUserRole<string>()
+                {
+                    RoleId = "4582a3e7-b236-4a79-9f6c-929aa61b9ec8",
+                    UserId = "b74ddd14-6340-4840-95c2-db12554843e9"
                 }
             );
         }

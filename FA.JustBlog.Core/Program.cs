@@ -1,4 +1,4 @@
-using FA.JustBlog.Core.Data;
+﻿using FA.JustBlog.Core.Data;
 using FA.JustBlog.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using FA.JustBlog.Utils;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using FA.JustBlog.Model;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +17,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
 
-//builder.Services.AddDbContext<ApplicationDbContext1>(option =>
-//    option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
+builder.Services.AddDbContext<ApplicationDbContext1>(option =>
+    option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
 
 // DEFAULT IDENTITY
 // builder.Services.AddDefaultIdentity<IdentityUser>(
@@ -41,7 +42,8 @@ builder.Services.ConfigureApplicationCookie(option =>
 
 
 // CONFIG EMAIL SENDER
-builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings")); 
+builder.Services.AddTransient<IEmailSender, SendMailService>();
 
 //SETTING JSON FILE
 builder.Services.AddControllers().AddJsonOptions(options =>

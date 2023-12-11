@@ -119,15 +119,15 @@ namespace FA.JustBlog.Core.Areas.Identity.Pages.Account
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Contributor)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
             }
-
-            Input = new()
-            {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
-                {
-                    Text = i,
-                    Value = i
-                })
-            };
+            //SELECT BOX ROLE
+            //Input = new()
+            //{
+            //    RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+            //    {
+            //        Text = i,
+            //        Value = i
+            //    })
+            //};
 
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -150,14 +150,16 @@ namespace FA.JustBlog.Core.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     // SELECT ROLE
-                    if(!String.IsNullOrEmpty(Input.Role)) 
-                    {
-                        await _userManager.AddToRoleAsync(user, Input.Role);
-                    }
-                    else
-                    {
-                        await _userManager.AddToRoleAsync(user, SD.Role_User);
-                    }
+                    //if(!String.IsNullOrEmpty(Input.Role)) 
+                    //{
+                    //    await _userManager.AddToRoleAsync(user, Input.Role);
+                    //}
+                    //else
+                    //{
+                    //    await _userManager.AddToRoleAsync(user, SD.Role_User);
+                    //}
+                    //SET ROLE USER WHEN REGISTER SUCCESS
+                    await _userManager.AddToRoleAsync(user, SD.Role_User);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -186,7 +188,15 @@ namespace FA.JustBlog.Core.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
+            //SELECT BOX ROLE
+            //Input = new()
+            //{
+            //    RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+            //    {
+            //        Text = i,
+            //        Value = i
+            //    })
+            //};
             // If we got this far, something failed, redisplay form
             return Page();
         }

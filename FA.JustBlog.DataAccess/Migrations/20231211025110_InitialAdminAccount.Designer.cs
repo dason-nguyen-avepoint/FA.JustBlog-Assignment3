@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FA.JustBlog.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231210154032_addInitialAdminAccount3")]
-    partial class addInitialAdminAccount3
+    [Migration("20231211025110_InitialAdminAccount")]
+    partial class InitialAdminAccount
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -182,7 +182,7 @@ namespace FA.JustBlog.DataAccess.Migrations
                             Id = 3,
                             CategoryId = 1,
                             Content = "This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.\r\n\r\nLonger quote goes here, maybe with some emphasized text in the middle of it.\r\n\r\nThis is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.",
-                            CreatedDate = new DateTime(2023, 12, 10, 22, 40, 32, 236, DateTimeKind.Local).AddTicks(5190),
+                            CreatedDate = new DateTime(2023, 12, 11, 9, 51, 9, 431, DateTimeKind.Local).AddTicks(9092),
                             Description = "You may not be aware, but NewBreed relies on donations from gospel partners, like you, so that we can give church planting resources away wherever they’re needed most.\r\nThis year, we’re not asking you to donate. We’re asking you to partner with us in the belief that NewBreed is fulfilling a vital role in training gospel missionaries to penetrate their cultures using 1st century universal principles that empower them to plant anywhere, at anytime, with anyone.",
                             Title = "This my my third post!",
                             ViewCount = 1,
@@ -491,8 +491,8 @@ namespace FA.JustBlog.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "b74ddd14-6340-4840-95c2-db12554843e6",
-                            RoleId = "3ec5ab9e-f889-404d-9dd1-eb62d9ad2732"
+                            UserId = "b74ddd14-6340-4840-95c2-db12554843e9",
+                            RoleId = "4582a3e7-b236-4a79-9f6c-929aa61b9ec8"
                         });
                 });
 
@@ -542,16 +542,18 @@ namespace FA.JustBlog.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b74ddd14-6340-4840-95c2-db12554843e6",
+                            Id = "b74ddd14-6340-4840-95c2-db12554843e9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "271fe844-44ee-4f1b-a959-0b1ca1fec887",
+                            ConcurrencyStamp = "e99b44cc-ff4c-4e04-85ec-b5a085b5ea6e",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEMVDMn+4o/wMgZM/cg1YGgYw3Jg1IilbUkJFejTSwVoZyM1UpHL7A4/pqi3kDlIUjg==",
+                            NormalizedEmail = "admin@gmail.com",
+                            NormalizedUserName = "admin@gmail.com",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEXNr6+/2EllPt6X9iWIefh718jY5u4/gyebgz5QuLuqUuwe63eyNgTUig6M6gbwJg==",
                             PhoneNumber = "0000000000",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "92d4cc2a-295b-4f08-8ba3-20b5223b2b25",
+                            SecurityStamp = "f8fa2bd0-d08b-4a60-8cf7-9ca6d07a6b31",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com",
                             Age = 0,

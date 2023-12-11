@@ -19,9 +19,22 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         }
 
         // GET: Admin/Tags
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            return View(await _context.Tags.ToListAsync());
+            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            IEnumerable<Tag> tagList = await _context.Tags.ToListAsync();
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    tagList = tagList.OrderByDescending(x => x.Name);
+                    break;
+                default:
+                    tagList = tagList.OrderBy(x => x.Name);
+                    break;
+
+            }
+            return View(tagList);
         }
 
         // GET: Admin/Tags/Details/5

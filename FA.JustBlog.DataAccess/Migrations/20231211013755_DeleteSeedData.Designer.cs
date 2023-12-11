@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FA.JustBlog.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231210154809_addInitialAdminAccount5")]
-    partial class addInitialAdminAccount5
+    [Migration("20231211013755_DeleteSeedData")]
+    partial class DeleteSeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -182,7 +182,7 @@ namespace FA.JustBlog.DataAccess.Migrations
                             Id = 3,
                             CategoryId = 1,
                             Content = "This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.\r\n\r\nLonger quote goes here, maybe with some emphasized text in the middle of it.\r\n\r\nThis is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.",
-                            CreatedDate = new DateTime(2023, 12, 10, 22, 48, 9, 56, DateTimeKind.Local).AddTicks(4389),
+                            CreatedDate = new DateTime(2023, 12, 11, 8, 37, 52, 951, DateTimeKind.Local).AddTicks(2751),
                             Description = "You may not be aware, but NewBreed relies on donations from gospel partners, like you, so that we can give church planting resources away wherever they’re needed most.\r\nThis year, we’re not asking you to donate. We’re asking you to partner with us in the belief that NewBreed is fulfilling a vital role in training gospel missionaries to penetrate their cultures using 1st century universal principles that empower them to plant anywhere, at anytime, with anyone.",
                             Title = "This my my third post!",
                             ViewCount = 1,
@@ -487,13 +487,6 @@ namespace FA.JustBlog.DataAccess.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "b74ddd14-6340-4840-95c2-db12554843e9",
-                            RoleId = "3ec5ab9e-f889-404d-9dd1-eb62d9ad2732"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -538,27 +531,6 @@ namespace FA.JustBlog.DataAccess.Migrations
                     b.ToTable("Users");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "b74ddd14-6340-4840-95c2-db12554843e9",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "51bb0ab7-6ad5-4f45-8125-00e401daf239",
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "admin@gmail.com",
-                            NormalizedUserName = "admin@gmail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPY45OsjipaTWUUTPJrr3x5LLfq70j8Wr2uHUi15FBWI6OJ/dwbCs6E30CbU50mgSg==",
-                            PhoneNumber = "0000000000",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "ea2a8a14-1b85-4c03-929f-6b51c1767222",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@gmail.com",
-                            Age = 0,
-                            Name = "Owner Blog"
-                        });
                 });
 
             modelBuilder.Entity("FA.JustBlog.Model.InterestPost", b =>
