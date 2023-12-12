@@ -14,8 +14,13 @@ namespace FA.JustBlog.Model
         public int Id { get; set; }
         public string? Title { get; set; }
         public string? Content { get; set; }
-        public string userId {  get; set; }
-        public ApplicationUser Users { get; set; }
-        public IEnumerable<Posts> Posts { get; set; }
+        public string? userId {  get; set; }
+        public ApplicationUser ? Users { get; set; }
+        public int postId { get; set; }
+        public Posts ? Post { get; set; }
+        [NotMapped]
+        public string UserName { get; set; }
+        [NotMapped]
+        public string PostTitle { get; set; }
     }
 }

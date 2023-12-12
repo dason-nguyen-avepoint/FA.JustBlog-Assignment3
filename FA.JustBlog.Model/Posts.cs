@@ -27,8 +27,6 @@ namespace FA.JustBlog.Model
         public Category ? Categories { get; set; }
         public virtual IEnumerable<TagPost> ? TagPosts { get; set; }
         public virtual IEnumerable<InterestPost> ? InterestPosts { get; set; }
-
-        public int CommentId { get; set; }
-        public Comment Comments { get; set; }
+        public virtual IEnumerable<Comment> Comments { get; set; }
     }
 }

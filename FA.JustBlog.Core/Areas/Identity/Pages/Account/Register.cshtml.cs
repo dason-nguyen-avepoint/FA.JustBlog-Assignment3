@@ -3,11 +3,9 @@
 #nullable disable
 
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.Encodings.Web;
 using FA.JustBlog.Model;
-using FA.JustBlog.Utils;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -113,12 +111,12 @@ namespace FA.JustBlog.Core.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if(!_roleManager.RoleExistsAsync(SD.Role_User).GetAwaiter().GetResult())
-            {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_User)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Contributor)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
-            }
+            //if(!_roleManager.RoleExistsAsync(SD.Role_User).GetAwaiter().GetResult())
+            //{
+            //    _roleManager.CreateAsync(new IdentityRole(SD.Role_User)).GetAwaiter().GetResult();
+            //    _roleManager.CreateAsync(new IdentityRole(SD.Role_Contributor)).GetAwaiter().GetResult();
+            //    _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
+            //}
             //SELECT BOX ROLE
             //Input = new()
             //{
@@ -159,7 +157,8 @@ namespace FA.JustBlog.Core.Areas.Identity.Pages.Account
                     //    await _userManager.AddToRoleAsync(user, SD.Role_User);
                     //}
                     //SET ROLE USER WHEN REGISTER SUCCESS
-                    await _userManager.AddToRoleAsync(user, SD.Role_User);
+                    //await _userManager.AddToRoleAsync(user, SD.Role_User);
+                    await _userManager.AddToRoleAsync(user, "User");
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

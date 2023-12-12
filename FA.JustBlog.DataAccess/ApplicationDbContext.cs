@@ -42,15 +42,41 @@ namespace FA.JustBlog.DataAccess
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>()
                 {
-                    RoleId = "4582a3e7-b236-4a79-9f6c-929aa61b9ec8",
+                    RoleId = "fab4fac1-c546-41de-aebc-a14da6895777",
                     UserId = "b74ddd14-6340-4840-95c2-db12554843e9"
                 }
             );
+        }
+        private void SeedRoles(ModelBuilder builder)
+        {
+            builder.Entity<IdentityRole>().HasData(
+                new IdentityRole() 
+                { 
+                    Id = "fab4fac1-c546-41de-aebc-a14da6895777",
+                    Name = "Admin", 
+                    ConcurrencyStamp = "1", 
+                    NormalizedName = "Admin" },
+                new IdentityRole() 
+                { 
+                    Id = "c7b013f0-5201-4317-abd8-c211f91b7444", 
+                    Name = "Contributor", 
+                    ConcurrencyStamp = "2", 
+                    NormalizedName = "Contributor" 
+                },
+                new IdentityRole()
+                {
+                    Id = "c7b013f0-5201-4317-abd8-c211f91b7888",
+                    Name = "User",
+                    ConcurrencyStamp = "3",
+                    NormalizedName = "User"
+                }
+                );
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
             base.OnModelCreating(modelBuilder);
+            this.SeedRoles(modelBuilder);
             this.SeedUsers(modelBuilder);
             this.SeedUserRoles(modelBuilder);
 
@@ -75,6 +101,7 @@ namespace FA.JustBlog.DataAccess
             modelBuilder.Entity<InterestPost>().HasOne(x => x.Post).WithMany(x => x.InterestPosts).HasForeignKey(x => x.PostId);
 
             modelBuilder.Entity<Comment>().HasOne(x => x.Users).WithMany(x => x.Comments).HasForeignKey(x => x.userId);
+            modelBuilder.Entity<Comment>().HasOne(x => x.Post).WithMany(x => x.Comments).HasForeignKey(x => x.postId);
             //SEED DATA
             modelBuilder.Entity<Tag>().HasData(
                 new Tag
@@ -240,6 +267,32 @@ namespace FA.JustBlog.DataAccess
                 {
                     PostId = 3,
                     TagId = 1,
+                }
+                );
+            modelBuilder.Entity<Comment>().HasData(
+                new Comment
+                {
+                    Id = 1,
+                    Title = "Comment Post 1",
+                    Content = "Content comment post 1",
+                    postId = 1,
+                    userId = "4ff02d5b-4ced-49f4-9cee-790d15c687df"
+                },
+                new Comment
+                {
+                    Id = 2,
+                    Title = "Comment Post 2",
+                    Content = "Content comment post 2",
+                    postId = 2,
+                    userId = "4ff02d5b-4ced-49f4-9cee-790d15c687df"
+                },
+                new Comment
+                {
+                    Id = 3,
+                    Title = "Comment Post 3",
+                    Content = "Content comment post 3",
+                    postId = 3,
+                    userId = "4ff02d5b-4ced-49f4-9cee-790d15c687df"
                 }
                 );
         }
