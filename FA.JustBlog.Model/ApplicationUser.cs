@@ -17,5 +17,6 @@ namespace FA.JustBlog.Model
         public string ?  AboutMe { get; set; }
         public string ? Address { get; set; }
         public string ? Phone { get; set; }
+        public IEnumerable<Comment>? Comments { get; set; }
     }
 }

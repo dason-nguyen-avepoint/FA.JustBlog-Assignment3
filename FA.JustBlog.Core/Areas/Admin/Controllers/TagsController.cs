@@ -4,26 +4,45 @@ using FA.JustBlog.DataAccess;
 using FA.JustBlog.Model;
 using FA.JustBlog.Utils;
 using Microsoft.AspNetCore.Authorization;
+using FA.JustBlog.Core.Paging;
+using Microsoft.AspNetCore.Identity;
 
 namespace FA.JustBlog.Core.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Policy = "RequireAdmin")]
     public class TagsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TagsController(ApplicationDbContext context)
+        public TagsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Admin/Tags
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber, int pageSize = 3)
         {
-            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            IEnumerable<Tag> tagList = await _context.Tags.ToListAsync();
+            var _user = await _userManager.GetUserAsync(User);
+            ViewBag.Role = await _userManager.GetRolesAsync(_user);
 
+            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+            var tagList = from x in _context.Tags select x;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                tagList = tagList.Where(s => s.Name.Contains(searchString));
+            }
             switch (sortOrder)
             {
                 case "name_desc":
@@ -34,7 +53,8 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
                     break;
 
             }
-            return View(tagList);
+            ViewBag.PageSize = pageSize;
+            return View(await PaginatedList<Tag>.CreateAsync(tagList.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Admin/Tags/Details/5
@@ -55,15 +75,13 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             return View(tag);
         }
 
-        // GET: Admin/Tags/Create
+        [Authorize(Policy = "RequireAdminContri")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Tags/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Policy = "RequireAdminContri")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("TagId,Name")] Tag tag)
@@ -81,7 +99,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             return View(tag);
         }
 
-        // GET: Admin/Tags/Edit/5
+        [Authorize(Policy = "RequireAdminContri")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -97,9 +115,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             return View(tag);
         }
 
-        // POST: Admin/Tags/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Policy = "RequireAdminContri")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("TagId,Name")] Tag tag)
@@ -136,7 +152,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             return View(tag);
         }
 
-        // GET: Admin/Tags/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -154,7 +170,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             return View(tag);
         }
 
-        // POST: Admin/Tags/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

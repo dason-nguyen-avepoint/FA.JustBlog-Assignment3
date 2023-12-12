@@ -4,23 +4,28 @@ using FA.JustBlog.DataAccess;
 using FA.JustBlog.Model;
 using Microsoft.AspNetCore.Authorization;
 using FA.JustBlog.Utils;
+using Microsoft.AspNetCore.Identity;
 
 namespace FA.JustBlog.Core.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles =SD.Role_Admin)]
+    [Authorize(Policy = "RequireAdmin")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CategoriesController(ApplicationDbContext context)
+        public CategoriesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Admin/Categories
         public async Task<IActionResult> Index()
         {
+            var _user = await _userManager.GetUserAsync(User);
+            ViewBag.Role = await _userManager.GetRolesAsync(_user);
             return View(await _context.Categories.ToListAsync());
         }
 
@@ -43,6 +48,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         }
 
         // GET: Admin/Categories/Create
+        [Authorize(Policy = "RequireAdminContri")]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +59,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "RequireAdminContri")]
         public async Task<IActionResult> Create([Bind("CategoryId,Name")] Category category)
         {
             if (_context.Categories.FirstOrDefault(x => x.Name == category.Name) != null)
@@ -69,6 +76,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         }
 
         // GET: Admin/Categories/Edit/5
+        [Authorize(Policy = "RequireAdminContri")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,6 +97,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "RequireAdminContri")]
         public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Name")] Category category)
         {
             if (id != category.CategoryId)
@@ -125,6 +134,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         }
 
         // GET: Admin/Categories/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -145,6 +155,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         // POST: Admin/Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var category = await _context.Categories.FindAsync(id);

@@ -50,7 +50,6 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
                 return NotFound();
             }
             ViewData["Role"] = new SelectList(_context.Roles, "Id", "Name");
-            //ViewBag.RoleId  = new SelectList(_context.Roles, "Id", "Name");
             return View(user);
         }
         [HttpPost]
@@ -83,6 +82,36 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             }
             ViewBag.Role = new SelectList(_context.Roles.ToList());
             return View(user);
+        }
+        public async Task<IActionResult> Delete (string? id)
+        {
+            if (String.IsNullOrEmpty(id)) 
+            {
+                return NotFound();
+            }
+            var _user = await _userManager.FindByIdAsync(id);
+
+            if (_user == null)
+            {
+                return NotFound();
+            }
+            ViewBag.RoleName = await _userManager.GetRolesAsync(_user);
+            return View(_user);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string? id)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
+            var _user = await _userManager.FindByIdAsync(id);
+            if (_user != null)
+            {
+                await _userManager.DeleteAsync(_user);
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

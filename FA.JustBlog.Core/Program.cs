@@ -31,6 +31,15 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager<SignInManager<ApplicationUser>>()
     .AddDefaultTokenProviders();
+//POLICY
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdmin",
+         policy => policy.RequireRole(SD.Role_Admin, SD.Role_Contributor, SD.Role_User));
+    options.AddPolicy("RequireAdminContri",
+        policy => policy.RequireRole(SD.Role_Contributor, SD.Role_Admin));
+});
 
 //CONFIGURE COOKIE
 builder.Services.ConfigureApplicationCookie(option =>
@@ -78,6 +87,10 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 
 });
+
+// CONFIG LANGUAGE
+//builder.Services.AddLocalization(option => option.ResourcesPath = "Resources");
+//builder.Services.AddMvc().AddViewLocalization().AddDataAnnotationsLocalization();
 
 var app = builder.Build();
 

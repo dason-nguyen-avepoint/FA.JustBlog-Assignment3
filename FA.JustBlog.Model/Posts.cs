@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,10 +18,17 @@ namespace FA.JustBlog.Model
         public string ? Content { get; set; }
         public int ViewCount { get; set; } = 0;
         public bool isPublised { get; set; }
+        [NotMapped]
+        public int Rate { get; set; }
+        [NotMapped]
+        public string? CateName { get; set; }
         public Nullable<int> CategoryId { get; set; }
         
         public Category ? Categories { get; set; }
         public virtual IEnumerable<TagPost> ? TagPosts { get; set; }
         public virtual IEnumerable<InterestPost> ? InterestPosts { get; set; }
+
+        public int CommentId { get; set; }
+        public Comment Comments { get; set; }
     }
 }

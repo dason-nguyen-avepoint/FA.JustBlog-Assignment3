@@ -16,6 +16,7 @@ namespace FA.JustBlog.DataAccess
         public DbSet<TagPost> TagsPost { get; set; }
         public DbSet<InterestPost> InterestPosts { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         private void SeedUsers(ModelBuilder modelBuilder)
         {
@@ -72,6 +73,8 @@ namespace FA.JustBlog.DataAccess
             modelBuilder.Entity<TagPost>().HasOne<Tag>(x => x.Tags).WithMany(x => x.TagPosts).HasForeignKey(x => x.TagId);
 
             modelBuilder.Entity<InterestPost>().HasOne(x => x.Post).WithMany(x => x.InterestPosts).HasForeignKey(x => x.PostId);
+
+            modelBuilder.Entity<Comment>().HasOne(x => x.Users).WithMany(x => x.Comments).HasForeignKey(x => x.userId);
             //SEED DATA
             modelBuilder.Entity<Tag>().HasData(
                 new Tag

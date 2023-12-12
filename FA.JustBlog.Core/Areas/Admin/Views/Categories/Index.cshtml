@@ -6,10 +6,13 @@
 }
 
 <h1>Category List</h1>
+@if (@ViewBag.Role[0] == "Admin" || @ViewBag.Role[0] == "Contributor")
+{
+    <p>
+        <a asp-action="Create" class="btn btn-success">Create New Category</a>
+    </p>
+}
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Create New Category</a>
-</p>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -25,11 +28,23 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-primary">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.CategoryId" class="btn btn-info">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-danger">Delete</a>
-            </td>
+                @if (@ViewBag.Role[0] == "User")
+                {
+                    <td class="d-flex gap-2 justify-content-center text-center">
+                        <a asp-action="Details" asp-route-id="@item.CategoryId" class="btn btn-outline-primary" style="width:80px">Details</a>
+                    </td>
+                }
+                else
+                {
+                    <td class="d-flex gap-2 justify-content-center text-center">
+                        <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-outline-info" style="width:80px">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.CategoryId" class="btn btn-outline-primary" style="width:80px">Details</a>
+                        @if (@ViewBag.Role[0] == "Admin")
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-outline-danger" style="width:80px">Delete</a>
+                        }
+                    </td>
+                }
         </tr>
 }
     </tbody>
