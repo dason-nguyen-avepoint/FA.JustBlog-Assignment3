@@ -83,7 +83,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         [Authorize(Policy = "RequireAdminContri")]
         public IActionResult Create()
         {
-            ViewBag.User =  _userManager.Users.ToList();
+            ViewBag.User = _userManager.Users.ToList();
             ViewData["Post"] = new SelectList(_context.Posts, "Id", "Title");
             return View();
         }
@@ -91,14 +91,17 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "RequireAdminContri")]
-        public async Task<IActionResult> Create([Bind("Id ,Title, Content, userId, postId")] Comment comment)
+        public async Task<IActionResult> Create(Comment comment)
         {
+            comment.userId = _userManager.GetUserId(User);
             if (ModelState.IsValid)
             {
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.User = _userManager.Users.ToList();
+            ViewData["Post"] = new SelectList(_context.Posts, "Id", "Title");
             return View(comment);
         }
 
@@ -178,6 +181,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         {
             return _context.Comments.Any(e => e.Id == id);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == 0 || id == null)
