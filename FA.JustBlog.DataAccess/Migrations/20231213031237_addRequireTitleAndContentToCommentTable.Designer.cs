@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FA.JustBlog.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231212114058_AllInitial")]
-    partial class AllInitial
+    [Migration("20231213031237_addRequireTitleAndContentToCommentTable")]
+    partial class addRequireTitleAndContentToCommentTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,28 +63,52 @@ namespace FA.JustBlog.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("postId")
                         .HasColumnType("int");
 
                     b.Property<string>("userId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsersId");
-
                     b.HasIndex("postId");
 
-                    b.ToTable("Comment");
+                    b.HasIndex("userId");
+
+                    b.ToTable("Comments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "Content comment post 1",
+                            Title = "Comment Post 1",
+                            postId = 1,
+                            userId = "b74ddd14-6340-4840-95c2-db12554843e9"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "Content comment post 2",
+                            Title = "Comment Post 2",
+                            postId = 2,
+                            userId = "b74ddd14-6340-4840-95c2-db12554843e9"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Content = "Content comment post 3",
+                            Title = "Comment Post 3",
+                            postId = 3,
+                            userId = "b74ddd14-6340-4840-95c2-db12554843e9"
+                        });
                 });
 
             modelBuilder.Entity("FA.JustBlog.Model.InterestPost", b =>
@@ -215,7 +239,7 @@ namespace FA.JustBlog.DataAccess.Migrations
                             Id = 3,
                             CategoryId = 1,
                             Content = "This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.\r\n\r\nLonger quote goes here, maybe with some emphasized text in the middle of it.\r\n\r\nThis is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.",
-                            CreatedDate = new DateTime(2023, 12, 12, 18, 40, 57, 765, DateTimeKind.Local).AddTicks(2850),
+                            CreatedDate = new DateTime(2023, 12, 13, 10, 12, 33, 972, DateTimeKind.Local).AddTicks(7251),
                             Description = "You may not be aware, but NewBreed relies on donations from gospel partners, like you, so that we can give church planting resources away wherever they’re needed most.\r\nThis year, we’re not asking you to donate. We’re asking you to partner with us in the belief that NewBreed is fulfilling a vital role in training gospel missionaries to penetrate their cultures using 1st century universal principles that empower them to plant anywhere, at anytime, with anyone.",
                             Title = "This my my third post!",
                             ViewCount = 1,
@@ -600,16 +624,16 @@ namespace FA.JustBlog.DataAccess.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "54eb7fe2-e62d-4f79-a104-709bf7c40723",
+                            ConcurrencyStamp = "350418cf-a8e1-49a1-ad51-292900458695",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@gmail.com",
                             NormalizedUserName = "admin@gmail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAENunVzqvjACrdehRuXRktdkIdqBh/4t13eY9dR0PneXWyB9Rtd/rDpvKwABFwuG+MQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBWlMn5hWSVYcL4b6lImGOjo6P7ELBFFCm0qrX0vOuqa0rsLJ8MNZCuUH12vbXPqtA==",
                             PhoneNumber = "0000000000",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9900ff97-97c5-439f-a3b7-ff318f479f96",
+                            SecurityStamp = "4590d2ff-6cdb-46a7-af41-acf2ba7a9b50",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com",
                             Age = 0,
@@ -619,19 +643,19 @@ namespace FA.JustBlog.DataAccess.Migrations
 
             modelBuilder.Entity("FA.JustBlog.Model.Comment", b =>
                 {
-                    b.HasOne("FA.JustBlog.Model.ApplicationUser", "Users")
-                        .WithMany("Comments")
-                        .HasForeignKey("UsersId");
-
-                    b.HasOne("FA.JustBlog.Model.Posts", "post")
+                    b.HasOne("FA.JustBlog.Model.Posts", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("postId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Users");
+                    b.HasOne("FA.JustBlog.Model.ApplicationUser", "Users")
+                        .WithMany("Comments")
+                        .HasForeignKey("userId");
 
-                    b.Navigation("post");
+                    b.Navigation("Post");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("FA.JustBlog.Model.InterestPost", b =>

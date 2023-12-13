@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FA.JustBlog.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AllInitial : Migration
+    public partial class InitialAll : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -216,29 +216,28 @@ namespace FA.JustBlog.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    userId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    userId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     postId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comment_Posts_postId",
+                        name: "FK_Comments_Posts_postId",
                         column: x => x.postId,
                         principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_Users_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_Comments_Users_userId",
+                        column: x => x.userId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
@@ -321,7 +320,7 @@ namespace FA.JustBlog.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AboutMe", "AccessFailedCount", "Address", "Age", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "Phone", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "b74ddd14-6340-4840-95c2-db12554843e9", null, 0, null, 0, "54eb7fe2-e62d-4f79-a104-709bf7c40723", "ApplicationUser", "admin@gmail.com", true, false, null, "Owner Blog", "admin@gmail.com", "admin@gmail.com", "AQAAAAIAAYagAAAAENunVzqvjACrdehRuXRktdkIdqBh/4t13eY9dR0PneXWyB9Rtd/rDpvKwABFwuG+MQ==", null, "0000000000", false, "9900ff97-97c5-439f-a3b7-ff318f479f96", false, "admin@gmail.com" });
+                values: new object[] { "b74ddd14-6340-4840-95c2-db12554843e9", null, 0, null, 0, "8e97f2fe-0bf2-4fad-a64d-7ccba9417d06", "ApplicationUser", "admin@gmail.com", true, false, null, "Owner Blog", "admin@gmail.com", "admin@gmail.com", "AQAAAAIAAYagAAAAEGzeGsvY10G3MycRv++Fy+mw7gF6AItD37IrCaDy6mJHr6x2ri+Q2fFCZlYWxn9mNg==", null, "0000000000", false, "a2afe0e9-2df1-4b43-9dfe-882200f960ee", false, "admin@gmail.com" });
 
             migrationBuilder.InsertData(
                 table: "Posts",
@@ -330,13 +329,23 @@ namespace FA.JustBlog.DataAccess.Migrations
                 {
                     { 1, 1, "This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.\r\n\r\nLonger quote goes here, maybe with some emphasized text in the middle of it.\r\n\r\nThis is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.", new DateTime(2022, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "You may not be aware, but NewBreed relies on donations from gospel partners, like you, so that we can give church planting resources away wherever they’re needed most.\r\nThis year, we’re not asking you to donate. We’re asking you to partner with us in the belief that NewBreed is fulfilling a vital role in training gospel missionaries to penetrate their cultures using 1st century universal principles that empower them to plant anywhere, at anytime, with anyone.", "Hello, this my my first post!", 3, true },
                     { 2, 2, "This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.\r\n\r\nLonger quote goes here, maybe with some emphasized text in the middle of it.\r\n\r\nThis is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.", new DateTime(2023, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "You may not be aware, but NewBreed relies on donations from gospel partners, like you, so that we can give church planting resources away wherever they’re needed most.\r\nThis year, we’re not asking you to donate. We’re asking you to partner with us in the belief that NewBreed is fulfilling a vital role in training gospel missionaries to penetrate their cultures using 1st century universal principles that empower them to plant anywhere, at anytime, with anyone.", "This my my second post!", 5, true },
-                    { 3, 1, "This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.\r\n\r\nLonger quote goes here, maybe with some emphasized text in the middle of it.\r\n\r\nThis is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.", new DateTime(2023, 12, 12, 18, 40, 57, 765, DateTimeKind.Local).AddTicks(2850), "You may not be aware, but NewBreed relies on donations from gospel partners, like you, so that we can give church planting resources away wherever they’re needed most.\r\nThis year, we’re not asking you to donate. We’re asking you to partner with us in the belief that NewBreed is fulfilling a vital role in training gospel missionaries to penetrate their cultures using 1st century universal principles that empower them to plant anywhere, at anytime, with anyone.", "This my my third post!", 1, true }
+                    { 3, 1, "This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.\r\n\r\nLonger quote goes here, maybe with some emphasized text in the middle of it.\r\n\r\nThis is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.", new DateTime(2023, 12, 13, 8, 47, 46, 935, DateTimeKind.Local).AddTicks(1424), "You may not be aware, but NewBreed relies on donations from gospel partners, like you, so that we can give church planting resources away wherever they’re needed most.\r\nThis year, we’re not asking you to donate. We’re asking you to partner with us in the belief that NewBreed is fulfilling a vital role in training gospel missionaries to penetrate their cultures using 1st century universal principles that empower them to plant anywhere, at anytime, with anyone.", "This my my third post!", 1, true }
                 });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "fab4fac1-c546-41de-aebc-a14da6895777", "b74ddd14-6340-4840-95c2-db12554843e9" });
+
+            migrationBuilder.InsertData(
+                table: "Comments",
+                columns: new[] { "Id", "Content", "Title", "postId", "userId" },
+                values: new object[,]
+                {
+                    { 1, "Content comment post 1", "Comment Post 1", 1, "b74ddd14-6340-4840-95c2-db12554843e9" },
+                    { 2, "Content comment post 2", "Comment Post 2", 2, "b74ddd14-6340-4840-95c2-db12554843e9" },
+                    { 3, "Content comment post 3", "Comment Post 3", 3, "b74ddd14-6340-4840-95c2-db12554843e9" }
+                });
 
             migrationBuilder.InsertData(
                 table: "InterestPosts",
@@ -370,14 +379,14 @@ namespace FA.JustBlog.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_postId",
-                table: "Comment",
+                name: "IX_Comments_postId",
+                table: "Comments",
                 column: "postId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_UsersId",
-                table: "Comment",
-                column: "UsersId");
+                name: "IX_Comments_userId",
+                table: "Comments",
+                column: "userId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InterestPosts_PostId",
@@ -438,7 +447,7 @@ namespace FA.JustBlog.DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "InterestPosts");

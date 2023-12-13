@@ -4,6 +4,7 @@ using FA.JustBlog.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace FA.JustBlog.Core.Areas.Admin.Controllers
@@ -53,8 +54,8 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
                               });
             if (!String.IsNullOrEmpty(searchString))
             {
-                listComment = listComment.Where(s => s.Title.Contains(searchString) 
-                                            || s.Content.Contains(searchString) 
+                listComment = listComment.Where(s => s.Title.Contains(searchString)
+                                            || s.Content.Contains(searchString)
                                             || s.UserName.Contains(searchString)
                                             || s.PostTitle.Contains(searchString));
             }
@@ -79,7 +80,28 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             ViewBag.PageSize = pageSize;
             return View(await PaginatedList<Comment>.CreateAsync(listComment.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
-        
+        [Authorize(Policy = "RequireAdminContri")]
+        public IActionResult Create()
+        {
+            ViewBag.User =  _userManager.Users.ToList();
+            ViewData["Post"] = new SelectList(_context.Posts, "Id", "Title");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = "RequireAdminContri")]
+        public async Task<IActionResult> Create([Bind("Id ,Title, Content, userId, postId")] Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(comment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(comment);
+        }
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -95,6 +117,96 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             }
 
             return View(comment);
+        }
+        [Authorize(Policy = "RequireAdminContri")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == 0 || id == null)
+            {
+                return NotFound();
+            }
+            var comment = await _context.Comments
+                        .Include(x => x.Post)
+                        .Include(x => x.Users)
+                        .FirstOrDefaultAsync(m => m.Id == id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            return View(comment);
+        }
+        [Authorize(Policy = "RequireAdminContri")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Title, Content, userId, postId, Users, Post")] Comment comment)
+        //public async Task<IActionResult> Edit(int id, [FromForm] Comment comment)
+        {
+            if (id != comment.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(comment);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CommentExists(comment.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            var post = _context.Posts.FirstOrDefault(x => x.Id == comment.postId);
+            var user = _userManager.Users.FirstOrDefault(x => x.Id == comment.userId);
+            comment.Post = post;
+            comment.Users = user;
+
+            return View(comment);
+        }
+        private bool CommentExists(int id)
+        {
+            return _context.Comments.Any(e => e.Id == id);
+        }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == 0 || id == null)
+            {
+                return NotFound();
+            }
+            var comment = await _context.Comments.Include(x => x.Users).Include(x => x.Post)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            return View(comment);
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var comment = await _context.Comments.Include(x => x.Users).Include(x => x.Post)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (comment != null)
+            {
+                _context.Comments.Remove(comment);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

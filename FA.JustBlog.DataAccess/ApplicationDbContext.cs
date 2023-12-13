@@ -276,7 +276,7 @@ namespace FA.JustBlog.DataAccess
                     Title = "Comment Post 1",
                     Content = "Content comment post 1",
                     postId = 1,
-                    userId = "4ff02d5b-4ced-49f4-9cee-790d15c687df"
+                    userId = "b74ddd14-6340-4840-95c2-db12554843e9"
                 },
                 new Comment
                 {
@@ -284,7 +284,7 @@ namespace FA.JustBlog.DataAccess
                     Title = "Comment Post 2",
                     Content = "Content comment post 2",
                     postId = 2,
-                    userId = "4ff02d5b-4ced-49f4-9cee-790d15c687df"
+                    userId = "b74ddd14-6340-4840-95c2-db12554843e9"
                 },
                 new Comment
                 {
@@ -292,7 +292,7 @@ namespace FA.JustBlog.DataAccess
                     Title = "Comment Post 3",
                     Content = "Content comment post 3",
                     postId = 3,
-                    userId = "4ff02d5b-4ced-49f4-9cee-790d15c687df"
+                    userId = "b74ddd14-6340-4840-95c2-db12554843e9"
                 }
                 );
         }

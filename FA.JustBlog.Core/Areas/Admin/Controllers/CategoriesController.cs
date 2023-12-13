@@ -161,12 +161,14 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             var category = await _context.Categories.FindAsync(id);
             if (category != null)
             {
-                var post = _context.Posts.FirstOrDefault(x => x.CategoryId == id);
+                var post = _context.Posts.Where(x => x.CategoryId == id);
                 if (post != null)
                 {
-                    post.isPublised = false;
-                    post.Categories = null;
-                    _context.Update(post);
+                    foreach(var itemPost in post)
+                    {
+                        itemPost.isPublised = false;
+                    }
+                    _context.UpdateRange(post);
                 }
                 _context.Remove(category);
             }

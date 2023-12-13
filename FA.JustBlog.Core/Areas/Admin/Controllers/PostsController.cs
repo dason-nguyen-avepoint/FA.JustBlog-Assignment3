@@ -33,21 +33,37 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             var groupInterest = _context.InterestPosts
                 .GroupBy(x => x.PostId)
                 .Select(x => new { postId = x.Key, rate = x.Average(p => p.Rate) });
+            //var listPost = from post in posts
+            //                      join category in categories on post.CategoryId equals category.CategoryId
+            //                      join interest in groupInterest on post.Id equals interest.postId
+            //                      select (new Posts
+            //                      {
+            //                          Id = post.Id,
+            //                          Title = post.Title,
+            //                          Description = post.Description,
+            //                          CreatedDate = post.CreatedDate,
+            //                          ViewCount = post.ViewCount,
+            //                          CategoryId = post.CategoryId,
+            //                          CateName = category.Name,
+            //                          Rate = (int)interest.rate,
+            //                          isPublised = post.isPublised
+            //                      });
             var listPost = from post in posts
-                                  join category in categories on post.CategoryId equals category.CategoryId
-                                  join interest in groupInterest on post.Id equals interest.postId
-                                  select (new Posts
-                                  {
-                                      Id = post.Id,
-                                      Title = post.Title,
-                                      Description = post.Description,
-                                      CreatedDate = post.CreatedDate,
-                                      ViewCount = post.ViewCount,
-                                      CategoryId = post.CategoryId,
-                                      CateName = category.Name,
-                                      Rate = (int)interest.rate,
-                                      isPublised = post.isPublised
-                                  });
+                           join category in categories on post.CategoryId equals category.CategoryId into temp
+                           from c in temp.DefaultIfEmpty()
+                           join interest in groupInterest on post.Id equals interest.postId
+                           select new Posts
+                           {
+                               Id = post.Id,
+                               Title = post.Title,
+                               Description = post.Description,
+                               CreatedDate = post.CreatedDate,
+                               ViewCount = post.ViewCount,
+                               CategoryId = post.CategoryId,
+                               CateName = c == null ? null : c.Name,
+                               Rate = (int)interest.rate,
+                               isPublised = post.isPublised
+                           };
             switch (sortBy)
             {
                 case "Latest Posts":

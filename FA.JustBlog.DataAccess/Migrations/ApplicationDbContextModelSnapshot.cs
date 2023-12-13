@@ -60,9 +60,11 @@ namespace FA.JustBlog.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("postId")
@@ -86,7 +88,7 @@ namespace FA.JustBlog.DataAccess.Migrations
                             Content = "Content comment post 1",
                             Title = "Comment Post 1",
                             postId = 1,
-                            userId = "4ff02d5b-4ced-49f4-9cee-790d15c687df"
+                            userId = "b74ddd14-6340-4840-95c2-db12554843e9"
                         },
                         new
                         {
@@ -94,7 +96,7 @@ namespace FA.JustBlog.DataAccess.Migrations
                             Content = "Content comment post 2",
                             Title = "Comment Post 2",
                             postId = 2,
-                            userId = "4ff02d5b-4ced-49f4-9cee-790d15c687df"
+                            userId = "b74ddd14-6340-4840-95c2-db12554843e9"
                         },
                         new
                         {
@@ -102,7 +104,7 @@ namespace FA.JustBlog.DataAccess.Migrations
                             Content = "Content comment post 3",
                             Title = "Comment Post 3",
                             postId = 3,
-                            userId = "4ff02d5b-4ced-49f4-9cee-790d15c687df"
+                            userId = "b74ddd14-6340-4840-95c2-db12554843e9"
                         });
                 });
 
@@ -234,7 +236,7 @@ namespace FA.JustBlog.DataAccess.Migrations
                             Id = 3,
                             CategoryId = 1,
                             Content = "This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.\r\n\r\nLonger quote goes here, maybe with some emphasized text in the middle of it.\r\n\r\nThis is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.",
-                            CreatedDate = new DateTime(2023, 12, 12, 18, 59, 20, 846, DateTimeKind.Local).AddTicks(9624),
+                            CreatedDate = new DateTime(2023, 12, 13, 10, 12, 33, 972, DateTimeKind.Local).AddTicks(7251),
                             Description = "You may not be aware, but NewBreed relies on donations from gospel partners, like you, so that we can give church planting resources away wherever they’re needed most.\r\nThis year, we’re not asking you to donate. We’re asking you to partner with us in the belief that NewBreed is fulfilling a vital role in training gospel missionaries to penetrate their cultures using 1st century universal principles that empower them to plant anywhere, at anytime, with anyone.",
                             Title = "This my my third post!",
                             ViewCount = 1,
@@ -619,16 +621,16 @@ namespace FA.JustBlog.DataAccess.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "eadbdc34-e7fe-4c67-a69a-6e0dc8edfafe",
+                            ConcurrencyStamp = "350418cf-a8e1-49a1-ad51-292900458695",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@gmail.com",
                             NormalizedUserName = "admin@gmail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAENDH6ee1bzrzlH6ntBzpBzrDKx7JDIz4KoBWYiX81wXw0KKuqwz/A0s8nGzNH7ZWxA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBWlMn5hWSVYcL4b6lImGOjo6P7ELBFFCm0qrX0vOuqa0rsLJ8MNZCuUH12vbXPqtA==",
                             PhoneNumber = "0000000000",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ddc00450-8f76-4d46-811f-3302830172a1",
+                            SecurityStamp = "4590d2ff-6cdb-46a7-af41-acf2ba7a9b50",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com",
                             Age = 0,

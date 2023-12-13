@@ -12,15 +12,20 @@ namespace FA.JustBlog.Model
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string? Title { get; set; }
+        [Required]
         public string? Content { get; set; }
         public string? userId {  get; set; }
         public ApplicationUser ? Users { get; set; }
         public int postId { get; set; }
         public Posts ? Post { get; set; }
+
+
+
         [NotMapped]
-        public string UserName { get; set; }
+        public string?UserName { get; set; }
         [NotMapped]
-        public string PostTitle { get; set; }
+        public string? PostTitle { get; set; }
     }
 }

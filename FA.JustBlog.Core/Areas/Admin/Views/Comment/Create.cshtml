@@ -1,0 +1,49 @@
+﻿@model Comment
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="p-4">
+    <h1>Create</h1>
+
+    <h4>Posts</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <input asp-for="userId" class="form-control" hidden/>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label bold"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Content" class="control-label bold"></label>
+                    <textarea id="mytextarea" asp-for="Content" class="form-control"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="postId" class="control-label bold"></label>
+                    <select asp-for="postId" class="form-control" asp-items="ViewBag.Post">
+                        <option disabled selected value="">-- SELECT POST --</option>
+                    </select>
+                    <span asp-validation-for="postId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="userId" class="control-label bold">User Name</label>
+                    <input asp-for="userId" class="form-control" value="@ViewBag.User[0].Name" disabled />
+                </div>
+                <br />
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" style="width:120px" />
+                    <a asp-action="Index" class="btn btn-outline-primary" style="width:120px">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
