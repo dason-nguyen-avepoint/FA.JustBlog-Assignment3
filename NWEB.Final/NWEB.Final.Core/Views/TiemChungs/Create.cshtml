@@ -1,0 +1,68 @@
+﻿@model NWEB.Final.Core.Models.TiemChung
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>TiemChung</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MaTC" class="control-label"></label>
+                <input asp-for="MaTC" class="form-control" />
+                <span asp-validation-for="MaTC" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaCD" class="control-label"></label>
+                <input asp-for="MaCD" class="form-control" />
+                <span asp-validation-for="MaCD" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaLieuVX" class="control-label"></label>
+                <input asp-for="MaLieuVX" class="form-control" />
+                <span asp-validation-for="MaLieuVX" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NgayTiemMui1" class="control-label"></label>
+                <input asp-for="NgayTiemMui1" class="form-control" />
+                <span asp-validation-for="NgayTiemMui1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NgayDKTienMui2" class="control-label"></label>
+                <input asp-for="NgayDKTienMui2" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="NgayTiemMui2" class="control-label"></label>
+                <input asp-for="NgayTiemMui2" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="TrangThai" class="control-label"></label>
+                <select asp-for="TrangThai" class="form-control">
+                    <option selected >Da tiem mui 1</option>
+                    <option>Da hoan thanh</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="GhiChu" class="control-label"></label>
+                <input asp-for="GhiChu" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

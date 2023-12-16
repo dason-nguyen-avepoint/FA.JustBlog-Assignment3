@@ -1,0 +1,79 @@
+﻿@model RECaptcha
+ 
+@{
+    Layout = null;
+}
+ 
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Index</title>
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+ 
+        .error {
+            color: red;
+        }
+    </style>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lc3yTApAAAAAOCm491WAxAKnb148oeC5olz_FsG"></script>
+</head>
+<body>
+    <div id="dvCaptcha">
+    </div>
+    <input type="hidden" id="hfCaptcha"/>
+    <span id="rfvCaptcha" class="error" style="display:none">Captcha validation is required.</span>
+    <br/>
+    <input type="button" id="btnSubmit" value="Submit"/>
+ 
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+            async defer></script>
+    <script>
+        function onClick(e) {
+            e.preventDefault();
+            grecaptcha.enterprise.ready(async () => {
+                const token = await grecaptcha.enterprise.execute('6Lc3yTApAAAAAOCm491WAxAKnb148oeC5olz_FsG', { action: 'LOGIN' });
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        var onloadCallback = function () {
+            grecaptcha.render('dvCaptcha', {
+                'sitekey': '@Model.Key',
+                'callback': function (response) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/AjaxMethod",
+                        data: {response: response },
+                        success: function (r) {
+                            var captchaResponse = jQuery.parseJSON(r.Response);
+                            if (captchaResponse.success) {
+                                $("#hfCaptcha").val(captchaResponse.success);
+                                $("#rfvCaptcha").hide();
+                            } else {
+                                $("#hfCaptcha").val("");
+                                $("#rfvCaptcha").show();
+                                var error = captchaResponse["error-codes"][0];
+                                $("#rfvCaptcha").html("RECaptcha error. " + error);
+                            }
+                        }
+                    });
+                }
+            });
+        };
+        $(function () {
+            $("#btnSubmit").click(function () {
+                $("#rfvCaptcha").hide();
+                if ($("#hfCaptcha").val() == "") {
+                    $("#rfvCaptcha").show();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

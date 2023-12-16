@@ -1,0 +1,97 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <label>Loai vacxin</label>
+            <select name="LoaiVX" class="form-control" asp-items="ViewBag.LoaiVX">
+                <option selected >--SELECT</option>
+            </select>
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Ma CD
+            </th>
+            <th>
+                Ten cong dan
+            </th>
+            <th>
+                Ma Lieu vacxin
+            </th>
+            <th>
+                Ten loai vacxin
+            </th>
+            <th>
+                Ngay tiem mui 1
+            </th>
+            <th>
+                Ngay du kien tiem mui 2
+            </th>
+            <th>
+                Ngay tiem mui 2
+            </th>
+            <th>
+                Trang thai
+            </th>
+            <th>
+                Ghi chu
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.MaCD
+                </td>
+                <td>
+                    @item.HoTen
+                </td>
+                <td>
+                    @item.MaLieuVX
+                </td>
+                <td>
+                    @item.TenLoaiVX
+                </td>
+                <td>
+                    @item.NgayTiemMui1
+                </td>
+                <td>
+                    @item.NgayDKTienMui2
+                </td>
+                <td>
+                    @item.NgayTiemMui2
+                </td>
+                <td>
+                    @item.TrangThai
+                </td>
+                <td>
+                    @item.GhiChu
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MaTC">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MaTC">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

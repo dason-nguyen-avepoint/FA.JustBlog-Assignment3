@@ -1,0 +1,45 @@
+﻿﻿@using Microsoft.AspNetCore.Identity
+@model dynamic
+
+@inject UserManager<ApplicationUser> _userManager
+@{
+    IEnumerable<Comment> comment = Model.comment;
+    var user = await _userManager.GetUserAsync(User);
+}
+
+
+<div class="d-flex ">
+    <div class="w-100">
+        <div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Recent Comments</h4>
+                </div>
+
+                <div class="comment-widgets m-b-20" style="width:100%">
+
+                    @foreach (var item in comment)
+                    {
+                        <div class="d-flex flex-row comment-row" style="width:100%">
+                            <div class="p-2"><span class="round"><img src="https://i.imgur.com/uIgDDDd.jpg" alt="user" width="50"></span></div>
+                            <div class="comment-text w-100">
+                                <div style="display:flex;align-items: baseline;gap: 10px">
+                                    <h5>@item.Users.Name</h5>
+                                    @* <span class="date text-muted" style="font-size:1rem">@item.CreatedDate</span> *@
+                                </div>
+                                <div class="comment-footer">
+                                </div>
+                                <p class="m-b-5" style="padding: 0;margin: 0">@item.Content</p>
+                            </div>
+                        </div>
+                    }
+
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

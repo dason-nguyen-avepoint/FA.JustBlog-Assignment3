@@ -9,10 +9,12 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.Text.Encodings.Web;
 using System.Text;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FA.JustBlog.Core.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "RequireAdmin")]
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -47,7 +49,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
                            });
             return View(listUser);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["ListRole"] = new SelectList(_context.Roles, "Id", "Name");
@@ -55,6 +57,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(RegisterModel model, string RoleId)
         {
             if (ModelState.IsValid)
@@ -98,7 +101,22 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             ViewData["ListRole"] = new SelectList(_context.Roles, "Id", "Name");
             return View(model);
         }
+        public IActionResult Details(string? id)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                return NotFound();
+            }
 
+            var user = _context.ApplicationUsers.FirstOrDefault(x => x.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            ViewBag.User = _userManager.Users.ToList();
+            return View(user);
+        }
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(string id)
         {
             if (String.IsNullOrEmpty(id))
@@ -115,6 +133,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             return View(user);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(ApplicationUser user, string? RoleId)
         {
             var _user = await _userManager.FindByIdAsync(user.Id);
@@ -146,6 +165,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
             ViewBag.Role = new SelectList(_context.Roles.ToList());
             return View(user);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string? id)
         {
             if (String.IsNullOrEmpty(id))
@@ -163,6 +183,7 @@ namespace FA.JustBlog.Core.Areas.Admin.Controllers
         }
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(string? id)
         {
             if (String.IsNullOrEmpty(id))

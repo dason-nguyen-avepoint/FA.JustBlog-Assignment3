@@ -10,7 +10,7 @@ namespace FA.JustBlog.Model
     {
         public int PostId { get; set; }
         public int TagId { get; set; }
-        public Posts Post { get; set; }
-        public Tag Tags { get; set; }
+        public virtual Posts Post { get; set; }
+        public virtual Tag Tags { get; set; }
     }
 }

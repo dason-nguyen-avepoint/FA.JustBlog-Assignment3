@@ -1,0 +1,59 @@
+﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    //var test = (SelectList)ViewData["RoleId"];
+}
+<h1>Details</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label class="control-label bold">User Name</label>
+                <input class="form-control" value="@ViewBag.User[0].Name" disabled />
+            </div>
+            @if (ViewBag.User[0].Name == "Admin")
+            {
+                <div class="form-group">
+                    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+                </div>
+            }
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

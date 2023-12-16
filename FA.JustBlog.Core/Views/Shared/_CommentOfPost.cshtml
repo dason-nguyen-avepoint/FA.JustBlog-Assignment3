@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Comment>
+<div class="iq-card">
+    <div class="card-title">
+        <h4>Comments</h4>
+    </div>
+    <div class="card-body">
+        @foreach (var item in Model)
+        {
+            <div class="row">
+                <b> @item.userId:</b> <span> <u>Time</u></span>
+                <h5>@item.Title</h5>
+                <p>@item.Content</p>
+            </div>
+        }
+
+    </div>
+</div>

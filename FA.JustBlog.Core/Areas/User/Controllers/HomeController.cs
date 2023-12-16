@@ -3,6 +3,7 @@ using FA.JustBlog.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Net;
 
 namespace FA.JustBlog.Core.Areas.User.Controllers
 {
@@ -17,7 +18,7 @@ namespace FA.JustBlog.Core.Areas.User.Controllers
 
         public IActionResult Index()
         {
-            List<Posts> listPosts = _db.Posts.Include(x => x.Categories).Where(x => x.isPublised && !String.IsNullOrEmpty(x.Categories.Name)).OrderByDescending(x => x.CreatedDate).ToList();
+            List<Posts> listPosts = _db.Posts.Include(x=> x.Categories).Where(x => x.isPublised && !String.IsNullOrEmpty(x.Categories.Name)).OrderByDescending(x => x.CreatedDate).ToList();
             return View(listPosts);
         }
 
@@ -38,6 +39,20 @@ namespace FA.JustBlog.Core.Areas.User.Controllers
         public IActionResult LatestPosts()
         {
             return View();
+        }
+        // GET: Home
+        public IActionResult Capcha()
+        {
+            return View(new RECaptcha());
+        }
+
+        [HttpPost]
+        public JsonResult AjaxMethod(string response)
+        {
+            RECaptcha recaptcha = new RECaptcha();
+            string url = "https://www.google.com/recaptcha/api/siteverify?secret=" + recaptcha.Secret + "&response=" + response;
+            recaptcha.Response = (new WebClient()).DownloadString(url);
+            return Json(recaptcha);
         }
     }
 }

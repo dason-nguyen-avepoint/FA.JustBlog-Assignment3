@@ -17,9 +17,9 @@ namespace FA.JustBlog.Model
         [Required]
         public string? Content { get; set; }
         public string? userId {  get; set; }
-        public ApplicationUser ? Users { get; set; }
+        public virtual ApplicationUser? Users { get; set; }
         public int postId { get; set; }
-        public Posts ? Post { get; set; }
+        public virtual Posts? Post { get; set; }
 
 
 

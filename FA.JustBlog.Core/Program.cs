@@ -20,6 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 builder.Services.AddDbContext<ApplicationDbContext1>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("JustBlogConnection")));
 
+
 // DEFAULT IDENTITY
 // builder.Services.AddDefaultIdentity<IdentityUser>(
 // options => options.SignIn.RequireConfirmedAccount = true)

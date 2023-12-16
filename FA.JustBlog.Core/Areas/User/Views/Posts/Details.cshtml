@@ -1,5 +1,9 @@
 ﻿@model Posts
-
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> _userManager
+@{
+    var user = await _userManager.GetUserAsync(User);
+}
 <div class="post-preview">
     <h4>@Model.Title</h4>
     <p class="post-meta">
@@ -12,3 +16,83 @@
     </button>
     <p class="line-break">@Html.Raw(Model.Content)</p>
 </div>
+@* COMMENT *@
+@* <section>
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="iq-card">
+                    <div class="card-body">
+                        <div id="comment_partial">
+
+                            <partial name="_CommentOfPost" model="@Model.Comments.ToList()" />
+                        </div>
+                        <form asp-controller="Comments" asp-action="CreateCommentInPost" id="form_comment">
+                            <input hidden id="post_id" value="@Model.Id" />
+                            <div class="form-group">
+                                <label class="control-label">Name</label>
+                                <input id="name_input" class="form-control" />
+                                <span id="name_error" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label"></label>
+                                <textarea id="content_input" class="form-control"></textarea>
+                                <span id="content_error" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#form_comment').on('submit', (e) => {
+                e.preventDefault()
+                var isValid = true
+                $('#name_error').text("")
+                $('#content_error').text("")
+                var name = $('#name_input').val()
+                var post_id = $('#post_id').val()
+                var content = $('#content_input').val()
+                if (name.trim() === "") {
+                    $('#name_error').text("Name is required!")
+                    isValid = false
+                }
+                if (content.trim() === "") {
+                    $('#content_error').text("Name is required!")
+                    isValid = false
+                }
+                console.log(isValid)
+                if (isValid) {
+                    var formData = {
+                        PostId: post_id,
+                        Name: name,
+                        CommentText: content,
+                    }
+
+                    $.post('/Comments/CreateCommentInPost', formData, (data, status) => {
+                        console.log(data)
+                        $('#content_input').val("")
+                        $('#name_input').val(" ")
+                        $('#comment_partial').html(${data})
+
+                    })
+                }
+
+
+
+            })
+
+        })
+
+    </script>
+} *@

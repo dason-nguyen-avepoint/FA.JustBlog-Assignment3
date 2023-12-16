@@ -7,7 +7,7 @@
 @{
     var index = 1;
 }
-@if (@ViewBag.Role[0] == "Admin" || @ViewBag.Role[0] == "Contributor")
+@if (@ViewBag.Role[0] == "Admin")
 {
     <p>
         <a asp-action="Create" class="btn btn-success">Create New Account</a>
@@ -61,10 +61,21 @@
                     </td>
 
                 }
-                <td>
-                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-outline-info">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-outline-danger">Delete</a>
-                </td>
+                @if (@ViewBag.Role[0] == "Admin")
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-outline-info">Edit</a>
+                        <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-outline-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-outline-info">Details</a>
+                    </td>
+                }
+                
             </tr>
             index = index + 1;
         }
