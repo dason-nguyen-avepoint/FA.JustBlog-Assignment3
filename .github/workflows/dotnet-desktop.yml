@@ -93,6 +93,13 @@ jobs:
           New-Item -ItemType Directory -Path $env:Wap_Project_Directory
         }
 
+        # Ensure the Packaging directory exists before writing the PFX file
+    - name: Ensure Packaging directory exists
+      run: |
+        if (!(Test-Path -Path $env:Wap_Project_Directory)) {
+          New-Item -ItemType Directory -Path $env:Wap_Project_Directory
+        }
+
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx
       run: |
