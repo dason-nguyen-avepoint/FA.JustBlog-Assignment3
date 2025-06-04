@@ -14,12 +14,10 @@ jobs:
       matrix:
         configuration: [Debug, Release]
 
-    runs-on: windows-latest  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
-
+    runs-on: windows-latest 
     env:
-      Solution_Name: FA.JustBlog.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
-      Test_Project_Path: Tests/FA.JustBlog.Tests.csproj                 # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      Solution_Name: FA.JustBlog.sln                         
+      Test_Project_Path: Tests/FA.JustBlog.Tests.csproj                 
       # Wap_Project_Directory: Packaging    
       # Wap_Project_Path: Packaging/FA_JustBlog.Package.wapproj                  
     steps:
@@ -62,11 +60,11 @@ jobs:
     #     }
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
-    - name: Decode the pfx
-      run: |
-        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
-        $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath GitHubActionsWorkflow.pfx
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+    # - name: Decode the pfx
+    #   run: |
+    #     $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
+    #     $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath GitHubActionsWorkflow.pfx
+    #     [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
 
     # Create the app package by building and packaging the Windows Application Packaging project
     # - name: Create the app package
